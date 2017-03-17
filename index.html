@@ -10,11 +10,21 @@
 
   <body>
     <app></app>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/riot/3.3.2/riot.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/riot-route/3.1.1/route.min.js"></script>
     <script src="dist/bundle.js"></script>
+
+    <script>
+      riot.compile(function () {
+        riot.mount('*')
+        route.start(true)
+      })
+    </script>
   </body>
 
 </html>

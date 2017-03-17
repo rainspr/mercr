@@ -1,2 +1,43 @@
 app
-  p.text-primary test
+  nav.navbar.navbar-default
+    .container-fluid
+      .navbar-header
+        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        |
+        a.navbar-brand(href='#') Riot Sample
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href='#') home
+          li
+            a(href='#pray') pray
+          li
+            a(href='#gp') gp
+  .container-fluid
+    #content
+      h1 test
+
+  script.
+    let r = route.create()
+    r('', () => {
+      riot.mount('#content', 'home')
+    })
+    r('pray', () => {
+      riot.mount('#content', 'pray')
+    })
+    r('gp', () => {
+      riot.mount('#content', 'gp')
+    })
+    r(() => {
+      riot.mount('#content', 'home')
+    })
+
+    //let rt = route.create()
+    //rt(activatetab)
+
+home
+  h1 home
