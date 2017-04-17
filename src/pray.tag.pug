@@ -1,2 +1,58 @@
 pray
-  p testp
+  section
+    h3 お祈り計算できるマン3.1
+    .row
+      //マッチングのボタン群
+      .col-sm-4
+        h4(strong, #clock)
+        .row
+          .col-xs-6
+            .alert.alert-warning(type="button", data-toggle="modal", data-target="#upleft", tabindex="0")
+              p.text-left 左上
+              p.text-left { pray.prayul }%
+          .col-xs-6
+            .alert.alert-danger(type="button", data-toggle="modal", data-target="#upright", tabindex="0")
+              p.text-left 右上
+              p.text-left { pray.prayur }%
+        .row
+          .col-xs-6.col-xs-offset-3
+            .alert.alert-default(type="button", data-toggle="modal", data-target="#gate", tabindex="0")
+              p.text-left ゲート
+              p.text-left { pray.praygt }%
+        .row
+          .col-xs-6
+            .alert.alert-info(type="button", data-toggle="modal", data-target="#lowleft", tabindex="0")
+              p.text-left 左下
+              p.text-left { pray.prayll }%
+          .col-xs-6
+            .alert.alert-success(type="button", data-toggle="modal", data-target="#lowright", tabindex="0")
+              p.text-left 右下
+              p.text-left { pray.praylr }%
+      //ゲート情報
+      .col-sm-8
+        .panel.panel-default
+          .panel-heading
+            h4.panel-title ゲート情報
+          .panel-body
+            p テスト
+    //モーダル置き場
+    praymodal(modid="upleft", modcolor="panel-warning")
+    praymodal(modid="upright", modcolor="panel-danger")
+    praymodal(modid="gate", modcolor="panel-default")
+    praymodal(modid="lowleft", modcolor="panel-info")
+    praymodal(modid="lowright", modcolor="panel-success")
+      
+  script.
+    this.pray = {
+      prayul: "-",
+      prayur: "-",
+      praygt: "-",
+      prayll: "-",
+      praylr: "-"
+    }
+    
+  style.
+    .alert-default {
+      background-color: #f3f3f3;
+      border-color: #f0f0f0;
+    }

@@ -5,6 +5,5 @@ export default {
   from: 'src',
   to: 'dist/bundle.js',
   ext: 'pug',
-  template: 'pug',
-  type: 'buble'
+  template: 'pug'
 }

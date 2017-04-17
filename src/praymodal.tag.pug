@@ -1,0 +1,137 @@
+praymodal
+  .modal(role="dialog", id="{ opts.modid }")
+    .modal-dialog
+      .modal-content(class="{ opts.modcolor }")
+        .modal-header.panel-heading
+          button(type="button", data-dismiss="modal").close &times;
+          h4.modal-title { modalobj.elemradio }/{ modalobj.gateradio }/{ modalobj.sizeselect }
+        .modal-body
+          form(ref="formref", onsubmit="return false;")
+            fieldset.form-group
+              label.radio-inline(each="{ elem }") #[input(type="radio", name="elemradio", value="{ value }", onchange="{ calc }")] { text }
+            fieldset.form-group
+              label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ calc }")] { text }
+            fieldset.form-group
+              select.form-control(name="seedselect", onchange="{ calc }")
+            fieldset.form-group
+              select.form-control(name="hpselect", onchange="{ calc }")
+            fieldset.form-group.form-inline
+              select.form-control(name="sizeselect", onchange="{ calc }")
+                option(each="{ size }", value="{ value }") { text }
+              select.form-control
+                option(each="{ wave }", value="{ value }") { text }
+
+  script.
+    var self = this
+    var seedselectized
+    var hpselectized
+    var query = 0
+    self.modalobj = {
+      elemradio: "all",
+      gateradio: "false",
+      sizeselect: "1.72",
+      waveselect: "1.0"
+    }
+    self.seedcvt = seed.map(function(obj) {
+      obj.extname += obj.name + convertToHira(obj.name)
+      obj.elm += "all"
+      return obj
+    })
+
+    calc(e) {
+      self.modalobj[e.target.name] = e.target.value
+      filterseed()
+      setdigit()
+    }
+    function convertToHira(str) {
+      return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+        var chr = match.charCodeAt(0) - 0x60
+        return String.fromCharCode(chr)
+      })
+    }
+    function filterseed() {
+      self.seedfil = self.seedcvt.filter(function(seed,index) {
+        if((seed.elm).indexOf(self.modalobj.elemradio) >= 0) {
+          if(self.modalobj.gateradio === "true") {
+            if(seed.gate === true) return true
+          } else return true
+        }
+      })
+      seedselectized[0].selectize.clearOptions()
+      seedselectized[0].selectize.addOption(self.seedfil)
+      seedselectized[0].selectize.refreshOptions()
+    }
+    function setdigit() {
+      query = hpselectized[0].selectize.query
+      hpselectized[0].selectize.clearOptions()
+      hpselectized[0].selectize.addOption(self.digit)
+      hpselectized[0].selectize.refreshOptions()
+    }
+    function expanddigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
+    }
+    self.elem = [
+      { text: "all", value: "all" },
+      { text: "炎", value: "fire" },
+      { text: "水", value: "water" },
+      { text: "風", value: "wind" },
+      { text: "光", value: "light" },
+      { text: "闇", value: "dark" }
+    ]
+    self.isgate = [
+      { text: "すべて", value: false },
+      { text: "ゲートから出るもののみ", value: true }
+    ]
+    self.digit = [
+      { text: expanddigit(query, 6).toLocaleString(), value: expanddigit(query, 6) },
+      { text: expanddigit(query, 7).toLocaleString(), value: expanddigit(query, 7) },
+      { text: expanddigit(query, 8).toLocaleString(), value: expanddigit(query, 8) },
+      { text: expanddigit(query, 9).toLocaleString(), value: expanddigit(query, 9) },
+      { text: expanddigit(query, 10).toLocaleString(), value: expanddigit(query, 10) }
+    ]
+    self.size = [
+      { text: "1.72", value: 1.72 },
+      { text: "1.75", value: 1.75 },
+      { text: "1.80", value: 1.80 },
+      { text: "1.00", value: 1.00 }
+    ]
+    self.wave = [
+      { text: "1体目", value: 1.0 },
+      { text: "2体目", value: 1.2 },
+      { text: "3体目", value: 1.4 },
+      { text: "4体目", value: 1.6 },
+      { text: "5体目", value: 1.8 }
+    ]
+    self.on('mount', function() {
+      self.refs.formref.elemradio.value = "all"
+      self.refs.formref.gateradio.value = "false"
+      self.seedfil = self.seedcvt
+      var seedref = self.refs.formref.seedselect
+      var hpref = self.refs.formref.hpselect
+
+      $(function(){
+        seedselectized = $(seedref).selectize({
+          options: self.seedfil,
+          valueField: "name",
+          labelField: "name",
+          searchField: ["extname"],
+          placeholder: "入力補完しますよ"
+        })
+        hpselectized = $(hpref).selectize({
+          options: self.digit,
+          valueField: "value",
+          labelField: "name",
+          searchField: ["value"],
+          placeholder: "桁を選択して下さい"
+        })
+        hpselectized[0].selectize.on("type", function(){
+          console.info(hpselectized[0].selectize.query)
+        })
+      })
+    })
+
+  style.
+    .panel-heading {
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+    }
