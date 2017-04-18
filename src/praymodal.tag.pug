@@ -13,22 +13,26 @@ praymodal
               label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ calc }")] { text }
             fieldset.form-group
               select.form-control(name="seedselect", onchange="{ calc }")
-            fieldset.form-group
-              select.form-control(name="hpselect", onchange="{ calc }")
             fieldset.form-group.form-inline
-              select.form-control(name="sizeselect", onchange="{ calc }")
+              select.form-control(style="width:25%", name="digitselect", onchange="{ calc }")
+                option(each="{ digit }", value="{ value }") { text }
+              input.form-control(style="width:auto", name="numinput", onkeyup="{ calc }")
+            fieldset.form-group.form-inline
+              select.form-control(style="width:auto", name="sizeselect", onchange="{ calc }")
                 option(each="{ size }", value="{ value }") { text }
-              select.form-control
+              select.form-control(style="width:auto", name="waveselect", onchange="{ calc }")
                 option(each="{ wave }", value="{ value }") { text }
 
   script.
     var self = this
     var seedselectized
-    var hpselectized
-    var query = 0
     self.modalobj = {
       elemradio: "all",
       gateradio: "false",
+      seedselect: "",
+      selected: { name: "", hp: 0, size: 1.720 },
+      digitselect: "1",
+      numinput: "0",
       sizeselect: "1.72",
       waveselect: "1.0"
     }
@@ -116,16 +120,6 @@ praymodal
           labelField: "name",
           searchField: ["extname"],
           placeholder: "入力補完しますよ"
-        })
-        hpselectized = $(hpref).selectize({
-          options: self.digit,
-          valueField: "value",
-          labelField: "name",
-          searchField: ["value"],
-          placeholder: "桁を選択して下さい"
-        })
-        hpselectized[0].selectize.on("type", function(){
-          console.info(hpselectized[0].selectize.query)
         })
       })
     })
