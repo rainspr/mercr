@@ -37,20 +37,14 @@ pray
           .panel-body
             p テスト
     //モーダル置き場
-    praymodal(modid="upleft", modcolor="panel-warning")
-    praymodal(modid="upright", modcolor="panel-danger")
-    praymodal(modid="gate", modcolor="panel-default")
-    praymodal(modid="lowleft", modcolor="panel-info")
-    praymodal(modid="lowright", modcolor="panel-success")
+    praymodal(ref="modul", modid="upleft", modtitle="",  modcolor="panel-warning")
+    praymodal(ref="modur", modid="upright", modtitle="", modcolor="panel-danger")
+    praymodal(ref="modgt", modid="gate", modtitle="", modcolor="panel-default")
+    praymodal(ref="modll", modid="lowleft", modtitle="", modcolor="panel-info")
+    praymodal(ref="modlr", modid="lowright", modtitle="", modcolor="panel-success")
       
   script.
-    this.pray = {
-      prayul: "-",
-      prayur: "-",
-      praygt: "-",
-      prayll: "-",
-      praylr: "-"
-    }
+
     
   style.
     .alert-default {

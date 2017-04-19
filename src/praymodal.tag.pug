@@ -4,48 +4,51 @@ praymodal
       .modal-content(class="{ opts.modcolor }")
         .modal-header.panel-heading
           button(type="button", data-dismiss="modal").close &times;
-          h4.modal-title { modalobj.elemradio }/{ modalobj.gateradio }/{ modalobj.sizeselect }
+          h4.modal-title { opts.modtitle }: { modalobj.prayed }({ modalobj.minupdated })
         .modal-body
           form(ref="formref", onsubmit="return false;")
             fieldset.form-group
-              label.radio-inline(each="{ elem }") #[input(type="radio", name="elemradio", value="{ value }", onchange="{ calc }")] { text }
+              label.radio-inline(each="{ elem }") #[input(type="radio", name="elemradio", value="{ value }", onchange="{ filterseed }")] { text }
             fieldset.form-group
-              label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ calc }")] { text }
+              label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ filterseed }")] { text }
             fieldset.form-group
               select.form-control(name="seedselect", onchange="{ calc }")
-            fieldset.form-group.form-inline
-              select.form-control(style="width:25%", name="digitselect", onchange="{ calc }")
-                option(each="{ digit }", value="{ value }") { text }
-              input.form-control(style="width:auto", name="numinput", onkeyup="{ calc }")
-            fieldset.form-group.form-inline
-              select.form-control(style="width:auto", name="sizeselect", onchange="{ calc }")
-                option(each="{ size }", value="{ value }") { text }
-              select.form-control(style="width:auto", name="waveselect", onchange="{ calc }")
-                option(each="{ wave }", value="{ value }") { text }
+            fieldset.form-group
+              select.form-control(name="digitselect", onchange="{ calc }")
+            fieldset.form-group
+              .row
+                .col-xs-6
+                  select.form-control(name="sizeselect", onchange="{ calc }")
+                    option(each="{ size }", value="{ value }") { text }
+                .col-xs-6
+                  select.form-control(style="width:auto", name="waveselect", onchange="{ calc }")
+                    option(each="{ wave }", value="{ value }") { text }
 
   script.
     var self = this
     var seedselectized
+    var digitselectized
     self.modalobj = {
-      elemradio: "all",
-      gateradio: "false",
       seedselect: "",
-      selected: { name: "", hp: 0, size: 1.720 },
-      digitselect: "1",
-      numinput: "0",
+      selected: { name: "", hp: 0 },
+      digitselect: "0",
       sizeselect: "1.72",
-      waveselect: "1.0"
+      waveselect: "1.0",
+      prayed: "-",
+      minupdated: "-分"
     }
-    self.seedcvt = seed.map(function(obj) {
+    self.seeddef = seed.map(function(obj) {
       obj.extname += obj.name + convertToHira(obj.name)
       obj.elm += "all"
+      obj.value = obj.name + "," + obj.hp + "," + obj.size
       return obj
     })
 
     calc(e) {
       self.modalobj[e.target.name] = e.target.value
-      filterseed()
-      setdigit()
+      self.modalobj.selected = setseed(seedselect)
+      self.prayed = objtopray(self.modalobj)
+      self.update()
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -53,8 +56,22 @@ praymodal
         return String.fromCharCode(chr)
       })
     }
-    function filterseed() {
-      self.seedfil = self.seedcvt.filter(function(seed,index) {
+    function setseed(str) {
+      var arr = str.split(",")
+      return { name: arr[0], hp: Number(arr[1])/Number(arr[2]) }
+    }
+    function praycalc(seedhp,inputhp,scale,wave) {
+      return Math.round((inputhp / seedhp*scale -1) * 100 / wave)
+    }
+    function objtopray(obj) {
+      var seedhp = obj.selected.hp
+      var inputhp = Number(obj.digitselect)
+      var scale = Number(obj.sizeselect)
+      var wave = Number(obj.waveselect)
+      return praycalc(seedhp,inputhp,scale,wave).toLocaleString()
+    }
+    filterseed() {
+      self.seedfil = self.seeddef.filter(function(seed,index) {
         if((seed.elm).indexOf(self.modalobj.elemradio) >= 0) {
           if(self.modalobj.gateradio === "true") {
             if(seed.gate === true) return true
@@ -64,15 +81,6 @@ praymodal
       seedselectized[0].selectize.clearOptions()
       seedselectized[0].selectize.addOption(self.seedfil)
       seedselectized[0].selectize.refreshOptions()
-    }
-    function setdigit() {
-      query = hpselectized[0].selectize.query
-      hpselectized[0].selectize.clearOptions()
-      hpselectized[0].selectize.addOption(self.digit)
-      hpselectized[0].selectize.refreshOptions()
-    }
-    function expanddigit(val,dig) {
-      return val * Math.pow(10, dig - String(val).length)
     }
     self.elem = [
       { text: "all", value: "all" },
@@ -85,13 +93,6 @@ praymodal
     self.isgate = [
       { text: "すべて", value: false },
       { text: "ゲートから出るもののみ", value: true }
-    ]
-    self.digit = [
-      { text: expanddigit(query, 6).toLocaleString(), value: expanddigit(query, 6) },
-      { text: expanddigit(query, 7).toLocaleString(), value: expanddigit(query, 7) },
-      { text: expanddigit(query, 8).toLocaleString(), value: expanddigit(query, 8) },
-      { text: expanddigit(query, 9).toLocaleString(), value: expanddigit(query, 9) },
-      { text: expanddigit(query, 10).toLocaleString(), value: expanddigit(query, 10) }
     ]
     self.size = [
       { text: "1.72", value: 1.72 },
@@ -109,19 +110,41 @@ praymodal
     self.on('mount', function() {
       self.refs.formref.elemradio.value = "all"
       self.refs.formref.gateradio.value = "false"
-      self.seedfil = self.seedcvt
-      var seedref = self.refs.formref.seedselect
-      var hpref = self.refs.formref.hpselect
+      self.seedfil = self.seeddef
 
       $(function(){
-        seedselectized = $(seedref).selectize({
+        seedselectized = $(self.refs.formref.seedselect).selectize({
           options: self.seedfil,
-          valueField: "name",
+          valueField: "value",
           labelField: "name",
           searchField: ["extname"],
           placeholder: "入力補完しますよ"
         })
+        digitselectized = $(self.refs.formref.digitselect).selectize({
+          options: [],
+          valueField: "value",
+          labelField: "name",
+          searchField: ["value"],
+          placeholder: "選択してください",
+          load: function(query, callback) {
+            if(!query.length) return callback()
+            function expanddigit(val,dig) {
+              return val * Math.pow(10, dig - String(val).length)
+            }
+            query = Number(query)
+            callcack([
+              { text: expanddigit(query, 6).toLocaleString(), value: expanddigit(query, 6) },
+              { text: expanddigit(query, 7).toLocaleString(), value: expanddigit(query, 7) },
+              { text: expanddigit(query, 8).toLocaleString(), value: expanddigit(query, 8) },
+              { text: expanddigit(query, 9).toLocaleString(), value: expanddigit(query, 9) },
+              { text: expanddigit(query, 10).toLocaleString(), value: expanddigit(query, 10) }
+            ])
+          }
+        })
       })
+    })
+    self.on('update', function() {
+      self.minupdated = self.parent.tags.jst.clockmin
     })
 
   style.
