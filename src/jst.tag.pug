@@ -1,5 +1,5 @@
 jst
-  { clock }
+  h4 { clock }
 
   script.
     var self = this
@@ -7,7 +7,7 @@ jst
       'https://ntp-a1.nict.go.jp/cgi-bin/json',
       'https://ntp-b1.nict.go.jp/cgi-bin/json'
     ]
-    self.serverurl = self.serverlist[Math.floor(Math.random() * self.serverList.length)]
+    self.serverurl = self.serverlist[Math.floor(Math.random() * self.serverlist.length)]
     self.loaddate = Date.now()
     axios.get(self.serverurl + "?" + self.loaddate / 1000)
       .then(function(response) {

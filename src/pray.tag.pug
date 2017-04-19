@@ -10,25 +10,25 @@ pray
           .col-xs-6
             .alert.alert-warning(type="button", data-toggle="modal", data-target="#upleft", tabindex="0")
               p.text-left 左上
-              p.text-left { pray.prayul }%
+              p.text-left { pray.prayul }
           .col-xs-6
             .alert.alert-danger(type="button", data-toggle="modal", data-target="#upright", tabindex="0")
               p.text-left 右上
-              p.text-left { pray.prayur }%
+              p.text-left { pray.prayur }
         .row
           .col-xs-6.col-xs-offset-3
             .alert.alert-default(type="button", data-toggle="modal", data-target="#gate", tabindex="0")
               p.text-left ゲート
-              p.text-left { pray.praygt }%
+              p.text-left { pray.praygt }
         .row
           .col-xs-6
             .alert.alert-info(type="button", data-toggle="modal", data-target="#lowleft", tabindex="0")
               p.text-left 左下
-              p.text-left { pray.prayll }%
+              p.text-left { pray.prayll }
           .col-xs-6
             .alert.alert-success(type="button", data-toggle="modal", data-target="#lowright", tabindex="0")
               p.text-left 右下
-              p.text-left { pray.praylr }%
+              p.text-left { pray.praylr }
       //ゲート情報
       .col-sm-8
         .panel.panel-default
@@ -37,13 +37,29 @@ pray
           .panel-body
             p テスト
     //モーダル置き場
-    praymodal(ref="modul", modid="upleft", modtitle="",  modcolor="panel-warning")
-    praymodal(ref="modur", modid="upright", modtitle="", modcolor="panel-danger")
-    praymodal(ref="modgt", modid="gate", modtitle="", modcolor="panel-default")
-    praymodal(ref="modll", modid="lowleft", modtitle="", modcolor="panel-info")
-    praymodal(ref="modlr", modid="lowright", modtitle="", modcolor="panel-success")
+    praymodal(ref="modul", modid="upleft", modtitle="左上",  modcolor="panel-warning")
+    praymodal(ref="modur", modid="upright", modtitle="右上", modcolor="panel-danger")
+    praymodal(ref="modgt", modid="gate", modtitle="ゲート", modcolor="panel-default")
+    praymodal(ref="modll", modid="lowleft", modtitle="左下", modcolor="panel-info")
+    praymodal(ref="modlr", modid="lowright", modtitle="右下", modcolor="panel-success")
       
   script.
+    var self = this
+    self.pray = {
+      prayul: "タップしてね",
+      prayur: "タップしてね",
+      praygt: "タップしてね",
+      prayll: "タップしてね",
+      praylr: "タップしてね",
+    }
+    obs.on('oncalc', function(){
+      self.pray.prayul = self.refs.modul.modalobj.prayed
+      self.pray.prayur = self.refs.modur.modalobj.prayed
+      self.pray.praygt = self.refs.modgt.modalobj.prayed
+      self.pray.prayll = self.refs.modll.modalobj.prayed
+      self.pray.praylr = self.refs.modlr.modalobj.prayed
+      self.update()
+    })
 
     
   style.

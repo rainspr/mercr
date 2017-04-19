@@ -4,30 +4,30 @@ praymodal
       .modal-content(class="{ opts.modcolor }")
         .modal-header.panel-heading
           button(type="button", data-dismiss="modal").close &times;
-          h4.modal-title { opts.modtitle }: { modalobj.prayed }({ modalobj.minupdated })
+          h4.modal-title { opts.modtitle }: { modalobj.prayed } ({ modalobj.minupdated })
         .modal-body
           form(ref="formref", onsubmit="return false;")
             fieldset.form-group
-              label.radio-inline(each="{ elem }") #[input(type="radio", name="elemradio", value="{ value }", onchange="{ filterseed }")] { text }
+              label.radio-inline(each="{ elem }") #[input(type="radio", name="elemradio", value="{ value }", onchange="{ setval }")] { text }
             fieldset.form-group
-              label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ filterseed }")] { text }
+              label.radio-inline(each="{ isgate }") #[input(type="radio", name="gateradio", value="{ value }", onchange="{ setval }")] { text }
             fieldset.form-group
-              select.form-control(name="seedselect", onchange="{ calc }")
+              select.form-control(name="seedselect")
             fieldset.form-group
-              select.form-control(name="digitselect", onchange="{ calc }")
+              select.form-control(name="digitselect")
             fieldset.form-group
               .row
                 .col-xs-6
-                  select.form-control(name="sizeselect", onchange="{ calc }")
+                  select.form-control(name="sizeselect", onchange="{ setval }")
                     option(each="{ size }", value="{ value }") { text }
                 .col-xs-6
-                  select.form-control(style="width:auto", name="waveselect", onchange="{ calc }")
+                  select.form-control(name="waveselect", onchange="{ setval }")
                     option(each="{ wave }", value="{ value }") { text }
 
   script.
     var self = this
-    var seedselectized
-    var digitselectized
+    var seedselectized = []
+    var digitselectized = []
     self.modalobj = {
       seedselect: "",
       selected: { name: "", hp: 0 },
@@ -43,12 +43,16 @@ praymodal
       obj.value = obj.name + "," + obj.hp + "," + obj.size
       return obj
     })
-
-    calc(e) {
+    setval(e) {
       self.modalobj[e.target.name] = e.target.value
-      self.modalobj.selected = setseed(seedselect)
-      self.prayed = objtopray(self.modalobj)
+      filterseed()
+      calc()
+    }
+    function calc() {
+      self.modalobj.selected = setseed(self.modalobj.seedselect)
+      self.modalobj.prayed = objtopray(self.modalobj) + "%"
       self.update()
+      obs.trigger('oncalc')
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -70,7 +74,7 @@ praymodal
       var wave = Number(obj.waveselect)
       return praycalc(seedhp,inputhp,scale,wave).toLocaleString()
     }
-    filterseed() {
+    function filterseed() {
       self.seedfil = self.seeddef.filter(function(seed,index) {
         if((seed.elm).indexOf(self.modalobj.elemradio) >= 0) {
           if(self.modalobj.gateradio === "true") {
@@ -123,7 +127,7 @@ praymodal
         digitselectized = $(self.refs.formref.digitselect).selectize({
           options: [],
           valueField: "value",
-          labelField: "name",
+          labelField: "text",
           searchField: ["value"],
           placeholder: "選択してください",
           load: function(query, callback) {
@@ -132,7 +136,7 @@ praymodal
               return val * Math.pow(10, dig - String(val).length)
             }
             query = Number(query)
-            callcack([
+            callback([
               { text: expanddigit(query, 6).toLocaleString(), value: expanddigit(query, 6) },
               { text: expanddigit(query, 7).toLocaleString(), value: expanddigit(query, 7) },
               { text: expanddigit(query, 8).toLocaleString(), value: expanddigit(query, 8) },
@@ -141,10 +145,15 @@ praymodal
             ])
           }
         })
+        seedselectized.on('change', function(){
+          self.modalobj.seedselect = this.value
+          calc()
+        })
+        digitselectized.on('change', function(){
+          self.modalobj.digitselect = this.value
+          calc()
+        })
       })
-    })
-    self.on('update', function() {
-      self.minupdated = self.parent.tags.jst.clockmin
     })
 
   style.
