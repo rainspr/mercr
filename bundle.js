@@ -1,21 +1,24 @@
 
 riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">メルストのやつ</a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li><a href="#">home</a></li> <li><a href="#pray">pray</a></li> <li><a href="#gp">gp</a></li> </ul> </div> </div> </nav> <div class="container"> <div id="content"> <h1>test</h1> </div> </div>', '', '', function(opts) {
-    let r = route.create()
-    r('', () => {
-      riot.mount('#content', 'home')
-    })
-    r('pray', () => {
+    var r = route.create()
+    r('', function() {
       riot.mount('#content', 'pray')
     })
-    r('gp', () => {
+    r('pray', function() {
+      riot.mount('#content', 'pray')
+    })
+    r('gp', function() {
       riot.mount('#content', 'gp')
     })
-    r(() => {
-      riot.mount('#content', 'home')
+    r(function() {
+      riot.mount('#content', 'pray')
     })
 
 });
 riot.tag2('home', '<h1>home</h1>', '', '', function(opts) {
+});
+
+riot.tag2('gatepanel', '<div class="panel panel-default"> <div class="panel-heading">{gp}GP/{pray}% ({min})</div> <div class="panel-body"></div> </div>', '', '', function(opts) {
 });
 
 riot.tag2('gp', '<h1>testg</h1>', '', '', function(opts) {
@@ -40,8 +43,8 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     function updatetime() {
       self.nowdate = new Date(Date.now() + self.datediff)
       self.clock = dateprintf('%y年%m月%d日 %h時%i分%s.%u秒', self.nowdate)
-      self.clockmin = dateprintf('i分%s秒', self.nowdate)
       self.update()
+      obs.trigger('onclock', dateprintf('i分%s秒', self.nowdate))
       setTimeout(updatetime, 50)
     }
     function zerofill(number,digit) {
@@ -95,19 +98,37 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
 riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1</h3> <jst> </jst> <div class="row"> <div class="col-sm-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上</p> <p class="text-left">{pray.prayul}</p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上</p> <p class="text-left">{pray.prayur}</p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート</p> <p class="text-left">{pray.praygt}</p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下</p> <p class="text-left">{pray.prayll}</p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下</p> <p class="text-left">{pray.praylr}</p> </div> </div> </div> </div> <div class="col-sm-8"> <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート情報</h4> </div> <div class="panel-body"> <p>テスト</p> </div> </div> </div> </div> <praymodal ref="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <praymodal ref="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></praymodal> <praymodal ref="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
     var self = this
     self.pray = {
-      prayul: "タップしてね",
-      prayur: "タップしてね",
-      praygt: "タップしてね",
-      prayll: "タップしてね",
-      praylr: "タップしてね",
+      modul: "タップしてね",
+      modur: "タップしてね",
+      modgt: "タップしてね",
+      modll: "タップしてね",
+      modlr: "タップしてね",
     }
-    obs.on('oncalc', function(){
-      self.pray.prayul = self.refs.modul.modalobj.prayed
-      self.pray.prayur = self.refs.modur.modalobj.prayed
-      self.pray.praygt = self.refs.modgt.modalobj.prayed
-      self.pray.prayll = self.refs.modll.modalobj.prayed
-      self.pray.praylr = self.refs.modlr.modalobj.prayed
+    obs.on('onclock', function(clockmin){
+      self.clockmin = clockmin
+    })
+    obs.on('oncalc', function(refname){
+      self.pray[refname] = self.refs[refname].modalobj.prayed
       self.update()
+    })
+    self.on('mount', function(){
+      $(function(){
+        $("#upleft").on('shown.bs.modal', function(){
+          $("#upright .close").focus()
+        })
+        $("#upright").on('shown.bs.modal', function(){
+          $("#upleft .close").focus()
+        })
+        $("#gate").on('shown.bs.modal', function(){
+          $("#gate .close").focus()
+        })
+        $("#lowleft").on('shown.bs.modal', function(){
+          $("#lowleft .close").focus()
+        })
+        $("#lowright").on('shown.bs.modal', function(){
+          $("#lowright .close").focus()
+        })
+      })
     })
 
 });
@@ -117,6 +138,8 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
     var seedselectized = []
     var digitselectized = []
     self.modalobj = {
+      elemradio: "all",
+      gateradio: false,
       seedselect: "",
       selected: { name: "", hp: 0 },
       digitselect: "0",
@@ -128,7 +151,6 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
     self.seeddef = seed.map(function(obj) {
       obj.extname += obj.name + convertToHira(obj.name)
       obj.elm += "all"
-      obj.value = obj.name + "," + obj.hp + "," + obj.size
       return obj
     })
     this.setval = function(e) {
@@ -139,8 +161,9 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
     function calc() {
       self.modalobj.selected = setseed(self.modalobj.seedselect)
       self.modalobj.prayed = objtopray(self.modalobj) + "%"
+      self.modalobj.minupdated = self.parent.clockmin
       self.update()
-      obs.trigger('oncalc')
+      obs.trigger('oncalc', opts.ref)
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -148,15 +171,20 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
         return String.fromCharCode(chr)
       })
     }
-    function setseed(str) {
-      var arr = str.split(",")
-      return { name: arr[0], hp: Number(arr[1])/Number(arr[2]) }
+    function setseed(seedname) {
+      var obj = self.seeddef.filter(function(seed,index) {
+        if(seed.name === seedname) return true
+      })
+      if(obj) {
+        return obj[0]
+      }
     }
-    function praycalc(seedhp,inputhp,scale,wave) {
-      return Math.round((inputhp / seedhp*scale -1) * 100 / wave)
+    function praycalc(seedhp,seedsize,inputhp,scale,wave) {
+      return Math.round((inputhp / (seedhp/seedsize*scale) -1) * 100 / wave)
     }
     function objtopray(obj) {
       var seedhp = obj.selected.hp
+      var seedsize = obj.selected.size
       var inputhp = Number(obj.digitselect)
       var scale = Number(obj.sizeselect)
       var wave = Number(obj.waveselect)
@@ -214,7 +242,7 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
         })
         digitselectized = $(self.refs.formref.digitselect).selectize({
           options: [],
-          valueField: "value",
+          valueField: "text",
           labelField: "text",
           searchField: ["value"],
           placeholder: "選択してください",
