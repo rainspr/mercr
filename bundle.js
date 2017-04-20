@@ -173,7 +173,7 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
 riot.tag2('gatepanel', '<div class="panel panel-default"> <div class="panel-heading">{gp}GP/{pray}% ({min})</div> <div class="panel-body"></div> </div>', '', '', function(opts) {
 });
 
-riot.tag2('gp', '<h1>testg</h1>', '', '', function(opts) {
+riot.tag2('gp', '<p>準備中なのだよ…</p>', '', '', function(opts) {
 });
 
 riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
