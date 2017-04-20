@@ -8,7 +8,7 @@ app
           span.icon-bar
           span.icon-bar
         |
-        a.navbar-brand(href='#') メルストのやつ
+        a.navbar-brand(href='#') test
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
           li
@@ -22,20 +22,20 @@ app
       h1 test
 
   script.
-    let r = route.create()
-    r('', () => {
-      riot.mount('#content', 'home')
-    })
-    r('pray', () => {
+    var r = route.create()
+    r('', function() {
       riot.mount('#content', 'pray')
     })
-    r('gp', () => {
+    r('pray', function() {
+      riot.mount('#content', 'pray')
+    })
+    r('gp', function() {
       riot.mount('#content', 'gp')
     })
-    r(() => {
-      riot.mount('#content', 'home')
+    r(function() {
+      riot.mount('#content', 'pray')
     })
-
+    //r('')は後で'home'にする
     //let rt = route.create()
     //rt(activatetab)
 
