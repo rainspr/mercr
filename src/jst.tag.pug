@@ -21,7 +21,7 @@ jst
       self.nowdate = new Date(Date.now() + self.datediff)
       self.clock = dateprintf('%y年%m月%d日 %h時%i分%s.%u秒', self.nowdate)
       self.update()
-      obs.trigger('onclock', dateprintf('%i分%s秒', self.nowdate))
+      obs.trigger('onclock', dateprintf('%i分', self.nowdate))
       setTimeout(updatetime, 50)
     }
     function zerofill(number,digit) {
