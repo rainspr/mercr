@@ -133,7 +133,7 @@ riot.tag2('pray', '<section> <jst> </jst> <div class="row"> <div class="col-sm-4
 
 });
 
-riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div class="modal-dialog"> <div class="modal-content {opts.modcolor}"> <div class="modal-header panel-heading"> <button class="close" type="button" data-dismiss="modal">&times;</button> <h4 class="modal-title">{opts.modtitle}: {modalobj.prayed} ({modalobj.minupdated})</h4> </div> <div class="modal-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="btn-group btn-group-xs" data-toggle="buttons"> <label class="btn btn-default active" each="{elem}"> <input type="radio" name="elemradio" riot-value="{value}" autocomplete="off" onchange="{setfilter}"> {text} </label> </fieldset> <fieldset class="btn-group btn-group-xs" data-toggle="buttons"> <label class="btn btn-default active" each="{elem}"> <input type="radio" name="elemradio" riot-value="{value}" autocomplete="off" onchange="{setfilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="seedselect"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitselect"></select> </fieldset> <fieldset class="form-group"> <div class="row"> <div class="col-xs-6"> <select class="form-control" name="sizeselect" onchange="{setval}"> <option each="{size}" riot-value="{value}">{text}</option> </select> </div> <div class="col-xs-6"> <select class="form-control" name="waveselect" onchange="{setval}"> <option each="{wave}" riot-value="{value}">{text}</option> </select> </div> </div> </fieldset> </form> </div> </div> </div> </div>', 'praymodal .panel-heading,[data-is="praymodal"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
+riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div class="modal-dialog"> <div class="modal-content {opts.modcolor}"> <div class="modal-header panel-heading"> <button class="close" type="button" data-dismiss="modal">&times;</button> <h4 class="modal-title">{opts.modtitle}: {modalobj.prayed} ({modalobj.minupdated})</h4> </div> <div class="modal-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <div class="btn-group btn-group-xs" data-toggle="buttons"> <label class="btn btn-default active" each="{elem}"> <input type="radio" name="elemradio" riot-value="{value}" autocomplete="off" checked="{}" onchange="{setfilter}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <div class="btn-group btn-group-xs" data-toggle="buttons"> <label class="btn btn-default active" each="{elem}"> <input type="radio" name="gateradio" riot-value="{value}" autocomplete="off" checked="{}" onchange="{setfilter}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="seedselect"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitselect"></select> </fieldset> <fieldset class="form-group"> <div class="row"> <div class="col-xs-6"> <select class="form-control" name="sizeselect" onchange="{setval}"> <option each="{size}" riot-value="{value}">{text}</option> </select> </div> <div class="col-xs-6"> <select class="form-control" name="waveselect" onchange="{setval}"> <option each="{wave}" riot-value="{value}">{text}</option> </select> </div> </div> </fieldset> </form> </div> </div> </div> </div>', 'praymodal .panel-heading,[data-is="praymodal"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
     var self = this
     var seedselectized = []
     var digitselectized = []
@@ -145,7 +145,7 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       digitselect: "0",
       sizeselect: "1.72",
       waveselect: "1.0",
-      prayed: "-",
+      prayed: "-%",
       minupdated: "-分"
     }
     self.seeddef = seed.map(function(obj) {
@@ -206,16 +206,16 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       seedselectized[0].selectize.refreshOptions()
     }
     self.elem = [
-      { text: "すべて", value: "all" },
-      { text: "炎", value: "fire" },
-      { text: "水", value: "water" },
-      { text: "風", value: "wind" },
-      { text: "光", value: "light" },
-      { text: "闇", value: "dark" }
+      { text: "すべて", value: "all", checked: true },
+      { text: "炎", value: "fire", checked: false },
+      { text: "水", value: "water", checked: false },
+      { text: "風", value: "wind", checked: false },
+      { text: "光", value: "light", checked: false },
+      { text: "闇", value: "dark", checked: false }
     ]
     self.isgate = [
-      { text: "すべて", value: false },
-      { text: "ゲートから出るもののみ", value: true }
+      { text: "すべて", value: false, checked: true },
+      { text: "ゲートから出るもののみ", value: true, checked: false }
     ]
     self.size = [
       { text: "1.72", value: 1.72 },
