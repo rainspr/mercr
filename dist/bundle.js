@@ -18,6 +18,9 @@ riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <d
 riot.tag2('home', '<h1>home</h1>', '', '', function(opts) {
 });
 
+riot.tag2('gatepanel', '<div class="panel panel-default"> <div class="panel-heading">{gp}GP/{pray}% ({min})</div> <div class="panel-body"></div> </div>', '', '', function(opts) {
+});
+
 riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div class="modal-dialog"> <div class="modal-content {opts.modcolor}"> <div class="modal-header panel-heading"> <button class="close" type="button" data-dismiss="modal">&times;</button> <h4 class="modal-title">{opts.modtitle}: {objModal.prayed} ({objModal.minUpdated})</h4> </div> <div class="modal-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label class="radio-inline" each="{elem}"> <input type="radio" name="elemRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <label class="radio-inline" each="{isgate}"> <input type="radio" name="gateRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="seedNameMulti"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitSelect"></select> </fieldset> <fieldset class="form-group"> <div class="row"> <div class="col-xs-6"> <select class="form-control" name="sizeSelect" onchange="{setVal}"> <option each="{size}" riot-value="{value}">{text}</option> </select> </div> </div> </fieldset> </form> </div> </div> </div> </div>', 'gatemodal .panel-heading,[data-is="gatemodal"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
     var self = this
     self.selectizedSeed = []
@@ -52,7 +55,7 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.objModal.prayed = setPrayMulti(self.objModal) + "%"
       self.objModal.minUpdated = self.parent.clockmin
       self.update()
-      obs.trigger('oncalc', opts.refname)
+      obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -83,7 +86,10 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       var inputhp = Number(obj.digitSelect)
       var scale = Number(obj.sizeSelect)
       var wave = Number(obj.waveSelect)
-      return calcPray(seedhp,seedsize,inputhp,scale,wave).toLocaleString()
+      var pray = calcPray(seedhp,seedsize,inputhp,scale,wave)
+      if(pray>0) {
+        return pray.toLocaleString()
+      } else return "0"
     }
     function filterSeed() {
       self.seedFiltered = self.seedDefault.filter(function(seed,index) {
@@ -96,6 +102,9 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.selectizedSeed[0].selectize.clearOptions()
       self.selectizedSeed[0].selectize.addOption(self.seedFiltered)
       self.selectizedSeed[0].selectize.refreshOptions()
+    }
+    function formatDigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
     }
     self.elem = [
       { text: "すべて", value: "all" },
@@ -144,9 +153,6 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           placeholder: "1体目の体力",
           load: function(query, callback) {
             if(!query.length) return callback()
-            function formatDigit(val,dig) {
-              return val * Math.pow(10, dig - String(val).length)
-            }
             query = Number(query)
             callback([
               { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
@@ -165,15 +171,14 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           }
         })
         self.selectizedDigit.on('change', function(){
-          self.objModal.digitSelect = self.selectizedDigit.val()
-          calc()
+          if(this.value){
+            self.objModal.digitSelect = self.selectizedDigit.val()
+            calc()
+          }
         })
       })
     })
 
-});
-
-riot.tag2('gatepanel', '<div class="panel panel-default"> <div class="panel-heading">{gp}GP/{pray}% ({min})</div> <div class="panel-body"></div> </div>', '', '', function(opts) {
 });
 
 riot.tag2('gp', '<p>準備中なのだよ…</p>', '', '', function(opts) {
@@ -250,29 +255,22 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     }
 });
 
-riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上 ({min.modul})</p> <p class="text-left"><strong>{pray.modul}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上 ({min.modur})</p> <p class="text-left"><strong>{pray.modur}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート ({min.modgt})</p> <p class="text-left"><strong>{pray.modgt}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下 ({min.modll})</p> <p class="text-left"><strong>{pray.modll}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下 ({min.modlr})</p> <p class="text-left"><strong>{pray.modlr}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート情報</h4> </div> <div class="panel-body"> <div class="table-responsive"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> </div> </div> </div> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
+riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上 ({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上 ({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート ({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下 ({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下 ({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">{gpnum}GP({gpmin}分) / {pray.modgt}%({min.modgt}分)</h4> </div> <div class="panel-body"> <div class="table-responsive"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label class="radio-inline" each="{sally}"> <input type="radio" name="sallyRadio" riot-value="{value}" onchange="{calcGP}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> </div> </div> </div> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
     var self = this
-    self.pray = {
-      modul: "タップしてね",
-      modur: "タップしてね",
-      modgt: "タップしてね",
-      modll: "タップしてね",
-      modlr: "タップしてね",
-    }
-    self.min = {
-      modul: "-分",
-      modur: "-分",
-      modgt: "-分",
-      modll: "-分",
-      modlr: "-分",
+    self.objPray = {
+      modul: { pray: "タップしてね", min: "-分" },
+      modur: { pray: "タップしてね", min: "-分" },
+      modgt: { pray: "タップしてね", min: "-分" },
+      modll: { pray: "タップしてね", min: "-分" },
+      modlr: { pray: "タップしてね", min: "-分" },
     }
     self.selected = []
     obs.on('onclock', function(clockmin){
       self.clockmin = clockmin
     })
-    obs.on('oncalc', function(refname){
-      self.pray[refname] = self.refs[refname].objModal.prayed
-      self.min[refname] = self.clockmin
+    obs.on('oncalc', function(refname, prayed){
+      self.objPray[refname].pray = prayed
+      self.objPray[refname].min = self.clockmin
       self.update()
     })
     obs.on('onselect', function(selected){
@@ -334,7 +332,7 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.objModal.prayed = setPray(self.objModal) + "%"
       self.objModal.minUpdated = self.parent.clockmin
       self.update()
-      obs.trigger('oncalc', opts.refname)
+      obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -359,7 +357,10 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       var inputhp = Number(obj.digitSelect)
       var scale = Number(obj.sizeSelect)
       var wave = Number(obj.waveSelect)
-      return calcPray(seedhp,seedsize,inputhp,scale,wave).toLocaleString()
+      var pray = calcPray(seedhp,seedsize,inputhp,scale,wave)
+      if(pray>0) {
+        return pray.toLocaleString()
+      } else return "0"
     }
     function filterSeed() {
       self.seedFiltered = self.seedDefault.filter(function(seed,index) {
@@ -372,6 +373,9 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.selectizedSeed[0].selectize.clearOptions()
       self.selectizedSeed[0].selectize.addOption(self.seedFiltered)
       self.selectizedSeed[0].selectize.refreshOptions()
+    }
+    function formatDigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
     }
     self.elem = [
       { text: "すべて", value: "all" },
@@ -419,9 +423,6 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           placeholder: "体力",
           load: function(query, callback) {
             if(!query.length) return callback()
-            function formatDigit(val,dig) {
-              return val * Math.pow(10, dig - String(val).length)
-            }
             query = Number(query)
             callback([
               { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
@@ -439,8 +440,10 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           }
         })
         self.selectizedDigit.on('change', function(){
-          self.objModal.digitSelect = self.selectizedDigit.val()
-          calc()
+          if(this.value){
+            self.objModal.digitSelect = self.selectizedDigit.val()
+            calc()
+          }
         })
       })
     })

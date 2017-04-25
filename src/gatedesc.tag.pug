@@ -1,0 +1,23 @@
+gatedesc
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title { gp }GP({ gpmin }分) / { pray }%({ praymin }分)
+    .panel-body
+      .table-responsive
+        table.table
+          thead: tr
+            th 名前
+            th リーチ
+            th 範囲
+            th 段数
+            th 外皮
+          tbody: tr(each="{ selected }")
+            th { name }
+            th { reach }
+            th { range }
+            th { cmb }
+            th { skin }
+            
+  script.
+    self.selected = []
+    

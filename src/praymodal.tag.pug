@@ -30,7 +30,7 @@ praymodal
     self.selectizedDigit = []
     self.objModal = {
       elemRadio: "all",
-      gateRadio: false,
+      gateRadio: "all",
       seedName: "",
       seedDesc: {},
       digitSelect: "0",
@@ -82,7 +82,10 @@ praymodal
       var inputhp = Number(obj.digitSelect)
       var scale = Number(obj.sizeSelect)
       var wave = Number(obj.waveSelect)
-      return calcPray(seedhp,seedsize,inputhp,scale,wave).toLocaleString()
+      var pray = calcPray(seedhp,seedsize,inputhp,scale,wave)
+      if(pray>0) {
+        return pray.toLocaleString()
+      } else return "0"
     }
     function filterSeed() {
       self.seedFiltered = self.seedDefault.filter(function(seed,index) {
