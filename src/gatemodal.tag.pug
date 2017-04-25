@@ -130,7 +130,7 @@ gatemodal
     ]
     self.on('mount', function() {
       self.refs.formref.elemRadio.value = "all"
-      self.refs.formref.gateRadio.value = "false"
+      self.refs.formref.gateRadio.value = "gateonly"
       self.seedFiltered = self.seedDefault
 
       $(function(){
@@ -164,13 +164,14 @@ gatemodal
           }
         })
         self.selectizedSeed.on('change', function(){
-          if(this.val()){
-            self.objModal.seedNameMulti = this.val()
+          console.log(this)
+          if(this.value){
+            self.objModal.seedNameMulti = self.selectizedSeed.val()
             calc()
           }
         })
         self.selectizedDigit.on('change', function(){
-          self.objModal.digitSelect = this.val()
+          self.objModal.digitSelect = self.selectizedDigit.val()
           calc()
         })
       })

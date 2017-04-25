@@ -123,7 +123,7 @@ praymodal
     ]
     self.on('mount', function() {
       self.refs.formref.elemRadio.value = "all"
-      self.refs.formref.gateRadio.value = "false"
+      self.refs.formref.gateRadio.value = "all"
       self.seedFiltered = self.seedDefault
 
       $(function(){
@@ -156,11 +156,13 @@ praymodal
           }
         })
         self.selectizedSeed.on('change', function(){
-          self.objModal.seedName = this.val()
-          calc()
+          if(this.value){
+            self.objModal.seedName = self.selectizedSeed.val()
+            calc()          
+          }
         })
         self.selectizedDigit.on('change', function(){
-          self.objModal.digitSelect = this.val()
+          self.objModal.digitSelect = self.selectizedDigit.val()
           calc()
         })
       })

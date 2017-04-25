@@ -1,6 +1,7 @@
 pray
   section
     h3 お祈り計算できるマン3.1
+      small (更新:{ document.lastModified })
     jst 
     .row
       //マッチングのボタン群
@@ -77,7 +78,7 @@ pray
       self.clockmin = clockmin
     })
     obs.on('oncalc', function(refname){
-      self.pray[refname] = self.refs[refname].modalobj.prayed
+      self.pray[refname] = self.refs[refname].objModal.prayed
       self.min[refname] = self.clockmin
       self.update()
     })
