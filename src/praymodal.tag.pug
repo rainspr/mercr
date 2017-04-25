@@ -57,7 +57,7 @@ praymodal
       self.objModal.prayed = setPray(self.objModal) + "%"
       self.objModal.minUpdated = self.parent.clockmin
       self.update()
-      obs.trigger('oncalc', opts.refname)
+      obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }
     function convertToHira(str) {
       return str.replace(/[\u30a1-\u30f6]/g, function (match) {
@@ -95,6 +95,9 @@ praymodal
       self.selectizedSeed[0].selectize.clearOptions()
       self.selectizedSeed[0].selectize.addOption(self.seedFiltered)
       self.selectizedSeed[0].selectize.refreshOptions()
+    }
+    function formatDigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
     }
     self.elem = [
       { text: "すべて", value: "all" },
@@ -142,9 +145,6 @@ praymodal
           placeholder: "体力",
           load: function(query, callback) {
             if(!query.length) return callback()
-            function formatDigit(val,dig) {
-              return val * Math.pow(10, dig - String(val).length)
-            }
             query = Number(query)
             callback([
               { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
@@ -158,12 +158,14 @@ praymodal
         self.selectizedSeed.on('change', function(){
           if(this.value){
             self.objModal.seedName = self.selectizedSeed.val()
-            calc()          
+            calc()
           }
         })
         self.selectizedDigit.on('change', function(){
-          self.objModal.digitSelect = self.selectizedDigit.val()
-          calc()
+          if(this.value){
+            self.objModal.digitSelect = self.selectizedDigit.val()
+            calc()
+          }
         })
       })
     })

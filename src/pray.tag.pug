@@ -77,8 +77,8 @@ pray
     obs.on('onclock', function(clockmin){
       self.clockmin = clockmin
     })
-    obs.on('oncalc', function(refname){
-      self.pray[refname] = self.refs[refname].objModal.prayed
+    obs.on('oncalc', function(refname, prayed){
+      self.pray[refname] = prayed
       self.min[refname] = self.clockmin
       self.update()
     })
