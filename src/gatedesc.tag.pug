@@ -1,23 +1,59 @@
 gatedesc
   .panel.panel-default
     .panel-heading
-      h4.panel-title { gp }GP({ gpmin }分) / { pray }%({ praymin }分)
+      h4.panel-title
     .panel-body
-      .table-responsive
-        table.table
-          thead: tr
-            th 名前
-            th リーチ
-            th 範囲
-            th 段数
-            th 外皮
-          tbody: tr(each="{ selected }")
-            th { name }
-            th { reach }
-            th { range }
-            th { cmb }
-            th { skin }
+      form(ref="formref", onsubmit="return false;")
+        fieldset.form-group
+          .btn-group(data-toggle="buttons")
+            label.btn.btn-default(each="{ sally }", active="{ isactive }")
+              input(type="radio", name="sallyRadio", autocomplete="off", value="{ value }", checked="{ isactive }", onchange="{ setValue }") { text }
+        fieldset.form-group
+          .btn-group(data-toggle="buttons")
+            label.btn.btn-default(each="{ lapMin }", active="{ isactive }")
+              input(type="radio", name="lapMinRadio", autocomplete="off", value="{ value }", checked="{ isactive }", onchange="{ setValue }") { text }
+          .btn-group(data-toggle="buttons")
+            label.btn.btn-default(each="{ lapSec }", active="{ isactive }")
+              input(type="radio", name="lapSecRadio", autocomplete="off", value="{ value }", checked="{ isactive }", onchange="{ setValue }") { text }
+        fieldset.form-group
+          select.form-control(name="digitGP")
             
   script.
+    var self = this
     self.selected = []
-    
+    self.objGate = {
+      sallyRadio: "0.02",
+      lapMinRadio: "0",
+      lapSecRadio: "0",
+      digitGP: ""
+    }
+    self.sally = [
+      { text: "1.0%", value: "0.01", isactive: false },
+      { text: "1.5%", value: "0.015", isactive: false },
+      { text: "2.0%", value: "0.02", isactive: true },
+      { text: "2.5%", value: "0.025", isactive: false },
+      { text: "3.0%", value: "0.03", isactive: false },
+    ]
+    self.lapMin = [
+      { text: "5", value: "0", isactive: true },
+      { text: "6", value: "60", isactive: false },
+      { text: "7", value: "90", isactive: false },
+      { text: "8", value: "120", isactive: false },
+      { text: "9", value: "150", isactive: false },
+      { text: "10", value: "180", isactive: false },
+    ]
+    self.lapSec = [
+      { text: "00", value: "0", isactive: true },
+      { text: "15", value: "15", isactive: false },
+      { text: "30", value: "30", isactive: false },
+      { text: "45", value: "45", isactive: false },
+    ]
+    setValue(e) {
+      self.objGate[e.target.name] = e.target.value
+      calcgp()
+    }
+    function calcgp() {
+      var sallyValue = Number(self.objGate.sallyRadio)
+      var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
+      var tb = 
+    }

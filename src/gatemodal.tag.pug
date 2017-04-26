@@ -28,6 +28,7 @@ gatemodal
     var self = this
     self.selectizedSeed = []
     self.selectizedDigit = []
+    self.clockmin = ""
     self.objModal = {
       elemRadio: "all",
       gateRadio: "gateonly",
@@ -52,11 +53,14 @@ gatemodal
       self.objModal[e.target.name] = e.target.value
       calc()
     }
+    obs.on('onclock', function(clockmin){
+      self.clockmin = clockmin
+    })
     function calc() {
       self.objModal.seedDescMulti = setSeedMulti(self.objModal.seedNameMulti)
       obs.trigger('onselect', self.objModal.seedDescMulti)
       self.objModal.prayed = setPrayMulti(self.objModal) + "%"
-      self.objModal.minUpdated = self.parent.clockmin
+      self.objModal.minUpdated = self.clockmin
       self.update()
       obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }

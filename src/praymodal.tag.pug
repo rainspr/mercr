@@ -28,6 +28,7 @@ praymodal
     var self = this
     self.selectizedSeed = []
     self.selectizedDigit = []
+    self.clockmin = ""
     self.objModal = {
       elemRadio: "all",
       gateRadio: "all",
@@ -52,10 +53,13 @@ praymodal
       self.objModal[e.target.name] = e.target.value
       calc()
     }
+    obs.on('onclock', function(clockmin){
+      self.clockmin = clockmin
+    })
     function calc() {
       self.objModal.seedDesc = setSeed(self.objModal.seedName)
       self.objModal.prayed = setPray(self.objModal) + "%"
-      self.objModal.minUpdated = self.parent.clockmin
+      self.objModal.minUpdated = self.clockmin
       self.update()
       obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }
