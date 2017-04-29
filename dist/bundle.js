@@ -18,16 +18,95 @@ riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <d
 riot.tag2('home', '<h1>home</h1>', '', '', function(opts) {
 });
 
-riot.tag2('gatepanel', '<div class="panel panel-default"> <div class="panel-heading">{gp}GP/{pray}% ({min})</div> <div class="panel-body"></div> </div>', '', '', function(opts) {
+riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート(予想:{self.objGate.gateValue.toLocaleString()}GP)</h4> </div> <div class="panel-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{sally}" active="{isactive}"> <input type="radio" name="sallyRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{lapMin}" active="{isactive}"> <input type="radio" name="lapMinRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{lapSec}" active="{isactive}"> <input type="radio" name="lapSecRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> <div class="table-responsive"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> </div> </div> </div>', '', '', function(opts) {
+    var self = this
+    self.selected = []
+    self.selectizedGP = []
+    self.objGate = {
+      sallyRadio: "0.02",
+      lapMinRadio: "0",
+      lapSecRadio: "0",
+      digitGP: "",
+      gateValue: 0
+    }
+    self.sally = [
+      { text: "1.0%", value: "0.01", isactive: false },
+      { text: "1.5%", value: "0.015", isactive: false },
+      { text: "2.0%", value: "0.02", isactive: true },
+      { text: "2.5%", value: "0.025", isactive: false },
+      { text: "3.0%", value: "0.03", isactive: false },
+    ]
+    self.lapMin = [
+      { text: "5", value: "0", isactive: true },
+      { text: "6", value: "60", isactive: false },
+      { text: "7", value: "90", isactive: false },
+      { text: "8", value: "120", isactive: false },
+      { text: "9", value: "150", isactive: false },
+      { text: "10", value: "180", isactive: false },
+    ]
+    self.lapSec = [
+      { text: "00", value: "0", isactive: true },
+      { text: "15", value: "15", isactive: false },
+      { text: "30", value: "30", isactive: false },
+      { text: "45", value: "45", isactive: false },
+    ]
+    obs.on('onselect', function(selected){
+      self.selected = selected
+      self.update()
+    })
+    this.setValue = function(e) {
+      self.objGate[e.target.name] = e.target.value
+      calcgp()
+    }.bind(this)
+    function calcgp() {
+      var sallyValue = Number(self.objGate.sallyRadio)
+      var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
+      if(time<0) time = 0
+      var tb = 1 + (0.201)*time/300
+      var gpNum = Number(self.objGate.digitGP)
+      self.objGate.gateValue = (gpNum / tb) / sallyValue
+    }
+    function formatDigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
+    }
+    self.on('mount', function(){
+      $(function(){
+        self.selectizedGP = $(self.refs.formref.digitGP).selectize({
+          options: [],
+          valueField: "value",
+          labelField: "text",
+          searchField: ["value"],
+          placeholder: "GP",
+          load: function(query, callback) {
+            if(!query.length) return callback()
+            query = Number(query)
+            callback([
+              { text: formatDigit(query, 4).toLocaleString(), value: formatDigit(query, 4) },
+              { text: formatDigit(query, 5).toLocaleString(), value: formatDigit(query, 5) },
+              { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
+              { text: formatDigit(query, 7).toLocaleString(), value: formatDigit(query, 7) },
+              { text: formatDigit(query, 8).toLocaleString(), value: formatDigit(query, 8) },
+              { text: formatDigit(query, 9).toLocaleString(), value: formatDigit(query, 9) },
+              { text: formatDigit(query, 10).toLocaleString(), value: formatDigit(query, 10) }
+            ])
+          }
+        })
+        self.selectizedGP.on('change', function(){
+          self.objGate.digitGP = self.selectizedGP.val()
+          calcgp()
+        })
+      })
+    })
 });
 
 riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div class="modal-dialog"> <div class="modal-content {opts.modcolor}"> <div class="modal-header panel-heading"> <button class="close" type="button" data-dismiss="modal">&times;</button> <h4 class="modal-title">{opts.modtitle}: {objModal.prayed} ({objModal.minUpdated})</h4> </div> <div class="modal-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label class="radio-inline" each="{elem}"> <input type="radio" name="elemRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <label class="radio-inline" each="{isgate}"> <input type="radio" name="gateRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="seedNameMulti"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitSelect"></select> </fieldset> <fieldset class="form-group"> <div class="row"> <div class="col-xs-6"> <select class="form-control" name="sizeSelect" onchange="{setVal}"> <option each="{size}" riot-value="{value}">{text}</option> </select> </div> </div> </fieldset> </form> </div> </div> </div> </div>', 'gatemodal .panel-heading,[data-is="gatemodal"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
     var self = this
     self.selectizedSeed = []
     self.selectizedDigit = []
+    self.clockmin = ""
     self.objModal = {
       elemRadio: "all",
-      gateRadio: false,
+      gateRadio: "gateonly",
       seedNameMulti: [],
       seedDescMulti: [],
       digitSelect: "0",
@@ -49,11 +128,14 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.objModal[e.target.name] = e.target.value
       calc()
     }.bind(this)
+    obs.on('onclock', function(clockmin){
+      self.clockmin = clockmin
+    })
     function calc() {
       self.objModal.seedDescMulti = setSeedMulti(self.objModal.seedNameMulti)
       obs.trigger('onselect', self.objModal.seedDescMulti)
       self.objModal.prayed = setPrayMulti(self.objModal) + "%"
-      self.objModal.minUpdated = self.parent.clockmin
+      self.objModal.minUpdated = self.clockmin
       self.update()
       obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }
@@ -255,7 +337,7 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     }
 });
 
-riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上 ({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上 ({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート ({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下 ({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下 ({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">{gpnum}GP({gpmin}分) / {pray.modgt}%({min.modgt}分)</h4> </div> <div class="panel-body"> <div class="table-responsive"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label class="radio-inline" each="{sally}"> <input type="radio" name="sallyRadio" riot-value="{value}" onchange="{calcGP}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> </div> </div> </div> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
+riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <gatedesc></gatedesc> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
     var self = this
     self.objPray = {
       modul: { pray: "タップしてね", min: "-分" },
@@ -264,17 +346,12 @@ riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新
       modll: { pray: "タップしてね", min: "-分" },
       modlr: { pray: "タップしてね", min: "-分" },
     }
-    self.selected = []
     obs.on('onclock', function(clockmin){
       self.clockmin = clockmin
     })
     obs.on('oncalc', function(refname, prayed){
       self.objPray[refname].pray = prayed
       self.objPray[refname].min = self.clockmin
-      self.update()
-    })
-    obs.on('onselect', function(selected){
-      self.selected = selected
       self.update()
     })
     self.on('mount', function(){
@@ -303,9 +380,10 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
     var self = this
     self.selectizedSeed = []
     self.selectizedDigit = []
+    self.clockmin = ""
     self.objModal = {
       elemRadio: "all",
-      gateRadio: false,
+      gateRadio: "all",
       seedName: "",
       seedDesc: {},
       digitSelect: "0",
@@ -327,10 +405,13 @@ riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
       self.objModal[e.target.name] = e.target.value
       calc()
     }.bind(this)
+    obs.on('onclock', function(clockmin){
+      self.clockmin = clockmin
+    })
     function calc() {
       self.objModal.seedDesc = setSeed(self.objModal.seedName)
       self.objModal.prayed = setPray(self.objModal) + "%"
-      self.objModal.minUpdated = self.parent.clockmin
+      self.objModal.minUpdated = self.clockmin
       self.update()
       obs.trigger('oncalc', opts.refname, self.objModal.prayed)
     }

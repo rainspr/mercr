@@ -32,32 +32,7 @@ pray
               p.text-left: strong { objPray.modlr.pray }
       //ゲート情報
       .col-md-8
-        .panel.panel-default
-          .panel-heading
-            h4.panel-title { gpnum }GP / { objPray.modgt.pray }%
-          .panel-body
-            .table-responsive
-              table.table
-                thead: tr
-                  th 名前
-                  th リーチ
-                  th 範囲
-                  th 段数
-                  th 外皮
-                tbody: tr(each="{ selected }")
-                  th { name }
-                  th { reach }
-                  th { range }
-                  th { cmb }
-                  th { skin }
-            form(ref="formref", onsubmit="return false;")
-              fieldset.form-group
-                label.radio-inline(each="{ sally }") #[input(type="radio", name="sallyRadio", value="{ value }", onchange="{ calcGP }")] { text }
-              fieldset.form-group
-                select.form-control(name="lapSelect", onchange="{ calcGP }")
-                  option(each="{ lap }", value="{ value }") { text }
-              fieldset.form-group
-                select.form-control(name="digitGP")
+        gatedesc
     //モーダル置き場
     praymodal(ref="modul", refname="modul", modid="upleft", modtitle="左上",  modcolor="panel-warning")
     praymodal(ref="modur", refname="modur", modid="upright", modtitle="右上", modcolor="panel-danger")
@@ -74,38 +49,12 @@ pray
       modll: { pray: "タップしてね", min: "-分" },
       modlr: { pray: "タップしてね", min: "-分" },
     }
-    self.gpnum = "-"
-    self.selected = []
-    self.sally = [
-      { text: "1.0%", value: "0.01" },
-      { text: "1.5%", value: "0.015" },
-      { text: "2.0%", value: "0.02" },
-      { text: "2.5%", value: "0.025" },
-      { text: "3.0%", value: "0.03" },
-    ]
-    self.lap = [
-      { text: "5:00以内", value: "300" },
-      { text: "5:30", value: "270" },
-      { text: "6:00", value: "240" },
-      { text: "6:30", value: "210" },
-      { text: "7:00", value: "180" },
-      { text: "7:30", value: "150" },
-      { text: "8:00", value: "120" },
-      { text: "8:30", value: "90" },
-      { text: "9:00", value: "60" },
-      { text: "9:30", value: "30" },
-      { text: "10:00以上", value: "0" },
-    ]
     obs.on('onclock', function(clockmin){
       self.clockmin = clockmin
     })
     obs.on('oncalc', function(refname, prayed){
       self.objPray[refname].pray = prayed
       self.objPray[refname].min = self.clockmin
-      self.update()
-    })
-    obs.on('onselect', function(selected){
-      self.selected = selected
       self.update()
     })
     self.on('mount', function(){
