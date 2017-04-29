@@ -1,5 +1,5 @@
 
-riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">メルストのやつ</a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li><a href="#">home</a></li> <li><a href="#pray">pray</a></li> <li><a href="#gp">gp</a></li> </ul> </div> </div> </nav> <div class="container"> <div id="content"> <h1></h1> </div> </div>', '', '', function(opts) {
+riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">メルストのやつ</a> </div> <div class="collapse navbar-collapse" id="navbar-collapse"> <ul class="nav navbar-nav"> <li><a href="#">home</a></li> <li><a href="#pray">pray</a></li> <li><a href="#gp">gp</a></li> </ul> </div> </div> </nav> <div class="container"> <div id="content"> <h1></h1> </div> </div>', '', '', function(opts) {
     var r = route.create()
     r('', function() {
       riot.mount('#content', 'pray')
@@ -18,7 +18,7 @@ riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <d
 riot.tag2('home', '<h1>home</h1>', '', '', function(opts) {
 });
 
-riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート(予想:{self.objGate.gateValue.toLocaleString()}GP)</h4> </div> <div class="panel-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{sally}" active="{isactive}"> <input type="radio" name="sallyRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{lapMin}" active="{isactive}"> <input type="radio" name="lapMinRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> <div class="btn-group" data-toggle="buttons"> <label class="btn btn-default" each="{lapSec}" active="{isactive}"> <input type="radio" name="lapSecRadio" autocomplete="off" riot-value="{value}" checked="{isactive}" onchange="{setValue}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> <div class="table-responsive"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> </div> </div> </div>', '', '', function(opts) {
+riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート(予想: <strong>{objGate.gateValue}GP</strong> )</h4> </div> <div class="panel-body"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label>役職補正</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{sally}"> <input type="radio" name="sallyRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(分)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapMin}"> <input type="radio" name="lapMinRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(秒)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapSec}"> <input type="radio" name="lapSecRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> </div> </div>', '', '', function(opts) {
     var self = this
     self.selected = []
     self.selectizedGP = []
@@ -27,7 +27,7 @@ riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-headi
       lapMinRadio: "0",
       lapSecRadio: "0",
       digitGP: "",
-      gateValue: 0
+      gateValue: "0"
     }
     self.sally = [
       { text: "1.0%", value: "0.01", isactive: false },
@@ -54,29 +54,35 @@ riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-headi
       self.selected = selected
       self.update()
     })
-    this.setValue = function(e) {
-      self.objGate[e.target.name] = e.target.value
-      calcgp()
-    }.bind(this)
     function calcgp() {
       var sallyValue = Number(self.objGate.sallyRadio)
       var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
       if(time<0) time = 0
       var tb = 1 + (0.201)*time/300
-      var gpNum = Number(self.objGate.digitGP)
-      self.objGate.gateValue = (gpNum / tb) / sallyValue
+      var gpNum = Number(self.objGate.digitGP) - 1000
+      var gatePoint = (gpNum / tb) / sallyValue
+      self.objGate.gateValue = numToString(gatePoint)
+      self.update()
     }
     function formatDigit(val,dig) {
       return val * Math.pow(10, dig - String(val).length)
     }
+    function numToString(num) {
+      var strarr = num.toString().split('.')
+      strarr[0] = Number(strarr[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      return strarr[0]
+    }
     self.on('mount', function(){
       $(function(){
+        self.refs.formref.sallyRadio.value = "0.02"
+        self.refs.formref.lapMinRadio.value = "0"
+        self.refs.formref.lapSecRadio.value = "0"
         self.selectizedGP = $(self.refs.formref.digitGP).selectize({
           options: [],
           valueField: "value",
           labelField: "text",
           searchField: ["value"],
-          placeholder: "GP",
+          placeholder: "獲得したGP",
           load: function(query, callback) {
             if(!query.length) return callback()
             query = Number(query)
@@ -90,6 +96,18 @@ riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-headi
               { text: formatDigit(query, 10).toLocaleString(), value: formatDigit(query, 10) }
             ])
           }
+        })
+        $(self.refs.formref.sallyRadio).change(function(){
+          self.objGate.sallyRadio = this.value
+          calcgp()
+        })
+        $(self.refs.formref.lapMinRadio).change(function(){
+          self.objGate.lapMinRadio = this.value
+          calcgp()
+        })
+        $(self.refs.formref.lapSecRadio).change(function(){
+          self.objGate.lapSecRadio = this.value
+          calcgp()
         })
         self.selectizedGP.on('change', function(){
           self.objGate.digitGP = self.selectizedGP.val()
@@ -225,7 +243,7 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           labelField: "name",
           searchField: ["extname"],
           maxItems: 5,
-          placeholder: "5体選べます"
+          placeholder: "シード名(5体選べます)"
         })
         self.selectizedDigit = $(self.refs.formref.digitSelect).selectize({
           options: [],
@@ -246,7 +264,6 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
           }
         })
         self.selectizedSeed.on('change', function(){
-          console.log(this)
           if(this.value){
             self.objModal.seedNameMulti = self.selectizedSeed.val()
             calc()

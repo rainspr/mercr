@@ -150,7 +150,7 @@ gatemodal
           labelField: "name",
           searchField: ["extname"],
           maxItems: 5,
-          placeholder: "5体選べます"
+          placeholder: "シード名(5体選べます)"
         })
         self.selectizedDigit = $(self.refs.formref.digitSelect).selectize({
           options: [],
@@ -171,7 +171,6 @@ gatemodal
           }
         })
         self.selectizedSeed.on('change', function(){
-          console.log(this)
           if(this.value){
             self.objModal.seedNameMulti = self.selectizedSeed.val()
             calc()
