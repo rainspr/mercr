@@ -490,6 +490,34 @@ var seed = [{
     gate: true
   },
   {
+    name: "コジェラシオン",
+    extname: "",
+    elm: "water",
+    skin: "硬い",
+    hp: 113276,
+    size: 1.715,
+    interval: 3.34,
+    mlt: 3,
+    cmb: 1,
+    reach: 20,
+    range: 35,
+    gate: true
+  },
+  {
+    name: "ジェラシオン",
+    extname: "",
+    elm: "water",
+    skin: "特硬",
+    hp: 168673,
+    size: 1.714,
+    interval: 2.55,
+    mlt: 3,
+    cmb: 3,
+    reach: 30,
+    range: 55,
+    gate: true
+  },
+  {
     name: "シックル",
     extname: "",
     elm: "water",
@@ -895,6 +923,20 @@ var seed = [{
     reach: 110,
     range: 115,
     gate: false
+  },
+  {
+    name: "ゴズオルム",
+    extname: "",
+    elm: "wind",
+    skin: "特硬",
+    hp: 153657,
+    size: 1.706,
+    interval: 2.77,
+    mlt: 2,
+    cmb: 2,
+    reach: 80,
+    range: 120,
+    gate: true
   },
   {
     name: "スノロール",
