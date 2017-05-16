@@ -396,7 +396,7 @@ riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新
 
 });
 
-riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="button">応援</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value}%</option> </select> </fieldset> </form> </section>', '', '', function(opts) {
+riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="button" onclick="{reset}">リセット</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value}%</option> </select> </fieldset> </form> </section>', '', '', function(opts) {
     var self = this
     self.selected = 3.5
     self.prayed = 0
@@ -411,6 +411,9 @@ riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="butto
     }.bind(this)
     this.pray = function() {
       self.prayed += self.selected
+    }.bind(this)
+    this.reset = function() {
+      self.prayed = 0
     }.bind(this)
 });
 
