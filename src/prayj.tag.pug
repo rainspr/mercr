@@ -1,0 +1,29 @@
+prayj
+  section
+    form
+      button(type="button", onclick="{ reset }").btn.btn-default リセット
+      button(type="button", onclick="{ pray }").btn.btn-default 祈り
+      p 防衛 + { prayed }%
+      fieldset.form-group
+        select.form-control(onchange="{ setVal }")
+          option(each="{ menber }", value="{ value }") { text }:{ value }%
+
+  script.
+    var self = this
+    self.selected = 3.5
+    self.prayed = 0
+    self.menber = [
+      { text:"プライリーダー", value:3.5 },
+      { text:"プライメンバー", value:3.0 },
+      { text:"一般", value:2.5 },
+      { text:"godlilla", value:300000 },
+    ]
+    setVal(e) {
+      self.selected = Number(e.target.value)
+    }
+    pray() {
+      self.prayed += self.selected
+    }
+    reset() {
+      self.prayed = 0
+    }

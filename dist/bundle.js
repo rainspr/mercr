@@ -10,6 +10,9 @@ riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <d
     r('gp', function() {
       riot.mount('#content', 'gp')
     })
+    r('prayj', function() {
+      riot.mount('#content', 'prayj')
+    })
     r(function() {
       riot.mount('#content', 'pray')
     })
@@ -391,6 +394,27 @@ riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新
       })
     })
 
+});
+
+riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="button" onclick="{reset}">リセット</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value}%</option> </select> </fieldset> </form> </section>', '', '', function(opts) {
+    var self = this
+    self.selected = 3.5
+    self.prayed = 0
+    self.menber = [
+      { text:"プライリーダー", value:3.5 },
+      { text:"プライメンバー", value:3.0 },
+      { text:"一般", value:2.5 },
+      { text:"godlilla", value:300000 },
+    ]
+    this.setVal = function(e) {
+      self.selected = Number(e.target.value)
+    }.bind(this)
+    this.pray = function() {
+      self.prayed += self.selected
+    }.bind(this)
+    this.reset = function() {
+      self.prayed = 0
+    }.bind(this)
 });
 
 riot.tag2('praymodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div class="modal-dialog"> <div class="modal-content {opts.modcolor}"> <div class="modal-header panel-heading"> <button class="close" type="button" data-dismiss="modal">&times;</button> <h4 class="modal-title">{opts.modtitle}: {objModal.prayed} ({objModal.minUpdated})</h4> </div> <div class="modal-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label class="radio-inline" each="{elem}"> <input type="radio" name="elemRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <label class="radio-inline" each="{isgate}"> <input type="radio" name="gateRadio" riot-value="{value}" onchange="{setFilter}"> {text} </label> </fieldset> <fieldset class="form-group"> <select class="form-control" name="seedName"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitSelect"></select> </fieldset> <fieldset class="form-group"> <div class="row"> <div class="col-xs-6"> <select class="form-control" name="sizeSelect" onchange="{setVal}"> <option each="{size}" riot-value="{value}">{text}</option> </select> </div> <div class="col-xs-6"> <select class="form-control" name="waveSelect" onchange="{setVal}"> <option each="{wave}" riot-value="{value}">{text}</option> </select> </div> </div> </fieldset> </form> </div> </div> </div> </div>', 'praymodal .panel-heading,[data-is="praymodal"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
