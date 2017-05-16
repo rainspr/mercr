@@ -398,13 +398,13 @@ riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新
 
 riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="button">応援</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value}%</option> </select> </fieldset> </form> </section>', '', '', function(opts) {
     var self = this
-    self.selected = 0
+    self.selected = 3.5
     self.prayed = 0
     self.menber = [
-      { text:"godlilla", value:300000 },
       { text:"プライリーダー", value:3.5 },
       { text:"プライメンバー", value:3.0 },
-      { text:"一般", value:2.5 }
+      { text:"一般", value:2.5 },
+      { text:"godlilla", value:300000 },
     ]
     this.setVal = function(e) {
       self.selected = Number(e.target.value)
