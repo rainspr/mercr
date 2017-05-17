@@ -1,14 +1,11 @@
 
-riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">メルストのやつ</a> </div> <div class="collapse navbar-collapse" id="navbar-collapse"> <ul class="nav navbar-nav"> <li><a href="#">home</a></li> <li><a href="#pray">pray</a></li> <li><a href="#gp">gp</a></li> </ul> </div> </div> </nav> <div class="container"> <div id="content"> <h1></h1> </div> </div>', '', '', function(opts) {
+riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">メルストのやつ</a> </div> <div class="collapse navbar-collapse" id="navbar-collapse"> <ul class="nav navbar-nav"> <li><a href="#">home</a></li> <li><a href="#pray">pray</a></li> <li><a href="#prayj">others</a></li> </ul> </div> </div> </nav> <div class="container"> <div id="content"> <h1></h1> </div> </div>', '', '', function(opts) {
     var r = route.create()
     r('', function() {
       riot.mount('#content', 'pray')
     })
     r('pray', function() {
       riot.mount('#content', 'pray')
-    })
-    r('gp', function() {
-      riot.mount('#content', 'gp')
     })
     r('prayj', function() {
       riot.mount('#content', 'prayj')
@@ -283,9 +280,6 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
 
 });
 
-riot.tag2('gp', '<p>準備中なのだよ…</p>', '', '', function(opts) {
-});
-
 riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     var self = this
     self.serverlist = [
@@ -357,7 +351,7 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     }
 });
 
-riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <gatedesc></gatedesc> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f3f3f3; border-color: #f0f0f0; }', '', function(opts) {
+riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <h4 strong clock></h4> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> <div class="col-md-8"> <gatedesc></gatedesc> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f5f5f5; border-color: #ddd; }', '', function(opts) {
     var self = this
     self.objPray = {
       modul: { pray: "タップしてね", min: "-分" },
@@ -396,15 +390,15 @@ riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新
 
 });
 
-riot.tag2('prayj', '<section> <form> <button class="btn btn-default" type="button" onclick="{reset}">リセット</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value}%</option> </select> </fieldset> </form> </section>', '', '', function(opts) {
+riot.tag2('prayj', '<section> <div class="row"> <div class="col-md-6"> <form> <button class="btn btn-default" type="button" onclick="{reset}">リセット</button> <button class="btn btn-default" type="button" onclick="{pray}">祈り</button> <p>防衛 + {prayed.toLocaleString()}%</p> <fieldset class="form-group"> <select class="form-control" onchange="{setVal}"> <option each="{menber}" riot-value="{value}">{text}:{value.toLocaleString()}%</option> </select> </fieldset> </form> </div> </div> </section>', '', '', function(opts) {
     var self = this
     self.selected = 3.5
     self.prayed = 0
     self.menber = [
-      { text:"プライリーダー", value:3.5 },
-      { text:"プライメンバー", value:3.0 },
-      { text:"一般", value:2.5 },
-      { text:"godlilla", value:300000 },
+      { text: "プライリーダー", value: 3.5 },
+      { text: "プライメンバー", value: 3.0 },
+      { text: "一般", value: 2.5 },
+      { text: "gorilla", value: 300000 },
     ]
     this.setVal = function(e) {
       self.selected = Number(e.target.value)
