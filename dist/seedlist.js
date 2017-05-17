@@ -852,7 +852,7 @@ var seed = [{
     cmb: 1,
     reach: 60,
     range: 120,
-    gate: false
+    gate: true
   },
   {
     name: "エスターヴァニ",
@@ -1652,7 +1652,7 @@ var seed = [{
     cmb: 2,
     reach: 55,
     range: 110,
-    gate: false
+    gate: true
   },
   {
     name: "グランラグナ",
