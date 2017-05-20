@@ -6,30 +6,30 @@ pray
     .row
       //マッチングのボタン群
       #gldbg.col-md-4
-        h4(strong, #clock)
-        .row
-          .col-xs-6
-            .alert.alert-warning(type="button", data-toggle="modal", data-target="#upleft", tabindex="0")
-              p.text-left 左上({ objPray.modul.min })
-              p.text-left: strong { objPray.modul.pray }
-          .col-xs-6
-            .alert.alert-danger(type="button", data-toggle="modal", data-target="#upright", tabindex="0")
-              p.text-left 右上({ objPray.modur.min })
-              p.text-left: strong { objPray.modur.pray }
-        .row
-          .col-xs-6.col-xs-offset-3
-            .alert.alert-default(type="button", data-toggle="modal", data-target="#gate", tabindex="0")
-              p.text-left ゲート({ objPray.modgt.min })
-              p.text-left: strong { objPray.modgt.pray }
-        .row
-          .col-xs-6
-            .alert.alert-info(type="button", data-toggle="modal", data-target="#lowleft", tabindex="0")
-              p.text-left 左下({ objPray.modll.min })
-              p.text-left: strong { objPray.modll.pray }
-          .col-xs-6
-            .alert.alert-success(type="button", data-toggle="modal", data-target="#lowright", tabindex="0")
-              p.text-left 右下({ objPray.modlr.min })
-              p.text-left: strong { objPray.modlr.pray }
+        #layer
+          .row
+            .col-xs-6
+              .alert.alert-warning(type="button", data-toggle="modal", data-target="#upleft", tabindex="0")
+                p.text-left 左上({ objPray.modul.min })
+                p.text-left: strong { objPray.modul.pray }
+            .col-xs-6
+              .alert.alert-danger(type="button", data-toggle="modal", data-target="#upright", tabindex="0")
+                p.text-left 右上({ objPray.modur.min })
+                p.text-left: strong { objPray.modur.pray }
+          .row
+            .col-xs-6.col-xs-offset-3
+              .alert.alert-default(type="button", data-toggle="modal", data-target="#gate", tabindex="0")
+                p.text-left ゲート({ objPray.modgt.min })
+                p.text-left: strong { objPray.modgt.pray }
+          .row
+            .col-xs-6
+              .alert.alert-info(type="button", data-toggle="modal", data-target="#lowleft", tabindex="0")
+                p.text-left 左下({ objPray.modll.min })
+                p.text-left: strong { objPray.modll.pray }
+            .col-xs-6
+              .alert.alert-success(type="button", data-toggle="modal", data-target="#lowright", tabindex="0")
+                p.text-left 右下({ objPray.modlr.min })
+                p.text-left: strong { objPray.modlr.pray }
       //ゲート情報
       .col-md-8
         gatedesc
@@ -84,6 +84,9 @@ pray
       border-color: #ddd;
     }
     #gldbg {
-      background: url("bgttaso.jpeg") no-repeat center center;
+      background: url("ettaso.jpeg") no-repeat center center;
       background-size: contain;
+    }
+    #layer {
+      background-color: rgba(255,255,255,0.75);
     }
