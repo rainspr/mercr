@@ -83,6 +83,20 @@ var seed = [{
     gate: false
   },
   {
+    name: "グロートル",
+    extname: "",
+    elm: "fire",
+    skin: "特硬",
+    hp: 111391,
+    size: 1.703,
+    interval: 2.58,
+    mlt: 2,
+    cmb: 2,
+    reach: 20,
+    range: 40,
+    gate: false
+  },
+  {
     name: "ゴーレム",
     extname: "",
     elm: "fire",
@@ -1639,6 +1653,20 @@ var seed = [{
     reach: 30,
     range: 50,
     gate: true
+  },
+  {
+    name: "オーヴ",
+    extname: "",
+    elm: "dark",
+    skin: "特柔",
+    hp: 159674,
+    size: 1.711,
+    interval: 2.92,
+    mlt: 3,
+    cmb: 1,
+    reach: 105,
+    range: 130,
+    gate: false
   },
   {
     name: "オニクモキリ",
