@@ -1,131 +1,23 @@
 gatedesc
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title ゲート(予想: #[strong { objGate.gateValue }GP] )
-    .panel-body
-      table.table
-        thead: tr
-          th 名前
-          th リーチ
-          th 範囲
-          th 段数
-          th 外皮
-        tbody: tr(each="{ selected }")
-          th { name }
-          th { reach }
-          th { range }
-          th { cmb }
-          th { skin }
-      form(ref="formref", onsubmit="return false;")
-        fieldset.form-group
-          label 役職補正
-          .btn-group.btn-group-sm(data-toggle="buttons")
-            label.btn.btn-default(each="{ sally }", class="{ active: isactive }") #[input(type="radio", name="sallyRadio", autocomplete="off", value="{ value }")] { text }
-        fieldset.form-group
-          label クリア(分)
-          .btn-group.btn-group-sm(data-toggle="buttons")
-            label.btn.btn-default(each="{ lapMin }", class="{ active: isactive }") #[input(type="radio", name="lapMinRadio", autocomplete="off", value="{ value }")] { text }
-        fieldset.form-group
-          label クリア(秒)
-          .btn-group.btn-group-sm(data-toggle="buttons")
-            label.btn.btn-default(each="{ lapSec }", class="{ active: isactive }") #[input(type="radio", name="lapSecRadio", autocomplete="off", value="{ value }")] { text }
-        fieldset.form-group
-          select.form-control(name="digitGP")
+  label(for="#gatetable") ゲートモンスター
+  table#gatetable.table
+    thead: tr
+      th 名前
+      th リーチ
+      th 範囲
+      th 段数
+      th 外皮
+    tbody: tr(each="{ selected }")
+      th { name }
+      th { reach }
+      th { range }
+      th { cmb }
+      th { skin }
 
   script.
     var self = this
     self.selected = []
-    self.selectizedGP = []
-    self.objGate = {
-      sallyRadio: "0.02",
-      lapMinRadio: "0",
-      lapSecRadio: "0",
-      digitGP: "",
-      gateValue: "0"
-    }
-    self.sally = [
-      { text: "1.0%", value: "0.01", isactive: false },
-      { text: "1.5%", value: "0.015", isactive: false },
-      { text: "2.0%", value: "0.02", isactive: true },
-      { text: "2.5%", value: "0.025", isactive: false },
-      { text: "3.0%", value: "0.03", isactive: false },
-    ]
-    self.lapMin = [
-      { text: "5", value: "0", isactive: true },
-      { text: "6", value: "60", isactive: false },
-      { text: "7", value: "90", isactive: false },
-      { text: "8", value: "120", isactive: false },
-      { text: "9", value: "150", isactive: false },
-      { text: "10", value: "180", isactive: false },
-    ]
-    self.lapSec = [
-      { text: "00", value: "0", isactive: true },
-      { text: "15", value: "15", isactive: false },
-      { text: "30", value: "30", isactive: false },
-      { text: "45", value: "45", isactive: false },
-    ]
     obs.on('onselect', function(selected){
       self.selected = selected
       self.update()
-    })
-    function calcgp() {
-      var sallyValue = Number(self.objGate.sallyRadio)
-      var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
-      if(time<0) time = 0
-      var tb = 1 + (0.201)*time/300
-      var gpNum = Number(self.objGate.digitGP) - 1000
-      var gatePoint = (gpNum / tb) / sallyValue
-      self.objGate.gateValue = numToString(gatePoint)
-      self.update()
-    }
-    function formatDigit(val,dig) {
-      return val * Math.pow(10, dig - String(val).length)
-    }
-    function numToString(num) {
-      var strarr = num.toString().split('.')
-      strarr[0] = Number(strarr[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      return strarr[0]
-    }
-    self.on('mount', function(){
-      $(function(){
-        self.refs.formref.sallyRadio.value = "0.02"
-        self.refs.formref.lapMinRadio.value = "0"
-        self.refs.formref.lapSecRadio.value = "0"
-        self.selectizedGP = $(self.refs.formref.digitGP).selectize({
-          options: [],
-          valueField: "value",
-          labelField: "text",
-          searchField: ["value"],
-          placeholder: "獲得したGP",
-          load: function(query, callback) {
-            if(!query.length) return callback()
-            query = Number(query)
-            callback([
-              { text: formatDigit(query, 4).toLocaleString(), value: formatDigit(query, 4) },
-              { text: formatDigit(query, 5).toLocaleString(), value: formatDigit(query, 5) },
-              { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
-              { text: formatDigit(query, 7).toLocaleString(), value: formatDigit(query, 7) },
-              { text: formatDigit(query, 8).toLocaleString(), value: formatDigit(query, 8) },
-              { text: formatDigit(query, 9).toLocaleString(), value: formatDigit(query, 9) },
-              { text: formatDigit(query, 10).toLocaleString(), value: formatDigit(query, 10) }
-            ])
-          }
-        })
-        $(self.refs.formref.sallyRadio).change(function(){
-          self.objGate.sallyRadio = this.value
-          calcgp()
-        })
-        $(self.refs.formref.lapMinRadio).change(function(){
-          self.objGate.lapMinRadio = this.value
-          calcgp()
-        })
-        $(self.refs.formref.lapSecRadio).change(function(){
-          self.objGate.lapSecRadio = this.value
-          calcgp()
-        })
-        self.selectizedGP.on('change', function(){
-          self.objGate.digitGP = self.selectizedGP.val()
-          calcgp()
-        })
-      })
     })

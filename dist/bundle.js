@@ -18,102 +18,12 @@ riot.tag2('app', '<nav class="navbar navbar-default"> <div class="container"> <d
 riot.tag2('home', '<h1>home</h1>', '', '', function(opts) {
 });
 
-riot.tag2('gatedesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート(予想: <strong>{objGate.gateValue}GP</strong> )</h4> </div> <div class="panel-body"> <table class="table"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label>役職補正</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{sally}"> <input type="radio" name="sallyRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(分)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapMin}"> <input type="radio" name="lapMinRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(秒)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapSec}"> <input type="radio" name="lapSecRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> </div> </div>', '', '', function(opts) {
+riot.tag2('gatedesc', '<label for="#gatetable">ゲートモンスター</label> <table class="table" id="gatetable"> <thead> <tr> <th>名前</th> <th>リーチ</th> <th>範囲</th> <th>段数</th> <th>外皮</th> </tr> </thead> <tbody> <tr each="{selected}"> <th>{name}</th> <th>{reach}</th> <th>{range}</th> <th>{cmb}</th> <th>{skin}</th> </tr> </tbody> </table>', '', '', function(opts) {
     var self = this
     self.selected = []
-    self.selectizedGP = []
-    self.objGate = {
-      sallyRadio: "0.02",
-      lapMinRadio: "0",
-      lapSecRadio: "0",
-      digitGP: "",
-      gateValue: "0"
-    }
-    self.sally = [
-      { text: "1.0%", value: "0.01", isactive: false },
-      { text: "1.5%", value: "0.015", isactive: false },
-      { text: "2.0%", value: "0.02", isactive: true },
-      { text: "2.5%", value: "0.025", isactive: false },
-      { text: "3.0%", value: "0.03", isactive: false },
-    ]
-    self.lapMin = [
-      { text: "5", value: "0", isactive: true },
-      { text: "6", value: "60", isactive: false },
-      { text: "7", value: "90", isactive: false },
-      { text: "8", value: "120", isactive: false },
-      { text: "9", value: "150", isactive: false },
-      { text: "10", value: "180", isactive: false },
-    ]
-    self.lapSec = [
-      { text: "00", value: "0", isactive: true },
-      { text: "15", value: "15", isactive: false },
-      { text: "30", value: "30", isactive: false },
-      { text: "45", value: "45", isactive: false },
-    ]
     obs.on('onselect', function(selected){
       self.selected = selected
       self.update()
-    })
-    function calcgp() {
-      var sallyValue = Number(self.objGate.sallyRadio)
-      var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
-      if(time<0) time = 0
-      var tb = 1 + (0.201)*time/300
-      var gpNum = Number(self.objGate.digitGP) - 1000
-      var gatePoint = (gpNum / tb) / sallyValue
-      self.objGate.gateValue = numToString(gatePoint)
-      self.update()
-    }
-    function formatDigit(val,dig) {
-      return val * Math.pow(10, dig - String(val).length)
-    }
-    function numToString(num) {
-      var strarr = num.toString().split('.')
-      strarr[0] = Number(strarr[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      return strarr[0]
-    }
-    self.on('mount', function(){
-      $(function(){
-        self.refs.formref.sallyRadio.value = "0.02"
-        self.refs.formref.lapMinRadio.value = "0"
-        self.refs.formref.lapSecRadio.value = "0"
-        self.selectizedGP = $(self.refs.formref.digitGP).selectize({
-          options: [],
-          valueField: "value",
-          labelField: "text",
-          searchField: ["value"],
-          placeholder: "獲得したGP",
-          load: function(query, callback) {
-            if(!query.length) return callback()
-            query = Number(query)
-            callback([
-              { text: formatDigit(query, 4).toLocaleString(), value: formatDigit(query, 4) },
-              { text: formatDigit(query, 5).toLocaleString(), value: formatDigit(query, 5) },
-              { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
-              { text: formatDigit(query, 7).toLocaleString(), value: formatDigit(query, 7) },
-              { text: formatDigit(query, 8).toLocaleString(), value: formatDigit(query, 8) },
-              { text: formatDigit(query, 9).toLocaleString(), value: formatDigit(query, 9) },
-              { text: formatDigit(query, 10).toLocaleString(), value: formatDigit(query, 10) }
-            ])
-          }
-        })
-        $(self.refs.formref.sallyRadio).change(function(){
-          self.objGate.sallyRadio = this.value
-          calcgp()
-        })
-        $(self.refs.formref.lapMinRadio).change(function(){
-          self.objGate.lapMinRadio = this.value
-          calcgp()
-        })
-        $(self.refs.formref.lapSecRadio).change(function(){
-          self.objGate.lapSecRadio = this.value
-          calcgp()
-        })
-        self.selectizedGP.on('change', function(){
-          self.objGate.digitGP = self.selectizedGP.val()
-          calcgp()
-        })
-      })
     })
 });
 
@@ -280,7 +190,122 @@ riot.tag2('gatemodal', '<div class="modal" role="dialog" id="{opts.modid}"> <div
 
 });
 
-riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
+riot.tag2('gpcalc', '<div class="panel-group" id="accordion"> <div class="panel panel-default"> <div class="panel-heading"><a data-toggle="collapse" href="#collapse1"> <h4 class="panel-title">ゲート保有GP: <strong>{objGate.gateValue}GP</strong></h4></a></div> <div class="panel-collapse collapse in" id="collapse1"> <div class="panel-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group"> <label>役職補正</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{sally}"> <input type="radio" name="sallyRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(分)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapMin}"> <input type="radio" name="lapMinRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>クリア(秒)</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{lapSec}"> <input type="radio" name="lapSecRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>コンテ数</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{contNum}"> <input type="radio" name="contNumRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" name="digitGP"></select> </fieldset> </form> </div> </div> </div> <div class="panel panel-default"> <div class="panel-heading"><a data-toggle="collapse" href="#collapse2"> <h4 class="panel-title">獲得GP予想</h4></a></div> <div class="panel-collapse collapse in" id="collapse2"> <div class="panel-body"> <p>メンテ中だよ…！</p> </div> </div> </div> </div>', '', '', function(opts) {
+    var self = this
+    self.selectizedGP = []
+    self.objGate = {
+      sallyRadio: "0.02",
+      lapMinRadio: "0",
+      lapSecRadio: "0",
+      contNumRadio: "1.00",
+      digitGP: "",
+      gateValue: "0"
+    }
+    self.sally = [
+      { text: "1.0%", value: "0.01", isactive: false },
+      { text: "1.5%", value: "0.015", isactive: false },
+      { text: "2.0%", value: "0.02", isactive: true },
+      { text: "2.5%", value: "0.025", isactive: false },
+      { text: "3.0%", value: "0.03", isactive: false },
+    ]
+    self.lapMin = [
+      { text: "5", value: "0", isactive: true },
+      { text: "6", value: "60", isactive: false },
+      { text: "7", value: "90", isactive: false },
+      { text: "8", value: "120", isactive: false },
+      { text: "9", value: "150", isactive: false },
+      { text: "10", value: "180", isactive: false },
+    ]
+    self.lapSec = [
+      { text: "00", value: "0", isactive: true },
+      { text: "15", value: "15", isactive: false },
+      { text: "30", value: "30", isactive: false },
+      { text: "45", value: "45", isactive: false },
+    ]
+    self.contNum = [
+      { text: "0", value: "1.00", isactive: true },
+      { text: "1", value: "0.95", isactive: false },
+      { text: "2", value: "0.90", isactive: false },
+      { text: "3", value: "0.85", isactive: false },
+      { text: "4", value: "0.80", isactive: false },
+      { text: "5", value: "0.75", isactive: false },
+      { text: "6", value: "0.70", isactive: false },
+      { text: "7", value: "0.65", isactive: false },
+      { text: "8", value: "0.60", isactive: false }
+    ]
+    function calcgp() {
+      var sallyValue = Number(self.objGate.sallyRadio)
+      var contValue = Number(self.objGate.contNumRadio)
+      var time = 300 - Number(self.objGate.lapMinRadio) - Number(self.objGate.lapSecRadio)
+      if(time<0) time = 0
+      var tb = 1 + (0.201)*time/300
+      var gpNum = Number(self.objGate.digitGP) - 1000
+      var gatePoint = (gpNum / tb) / sallyValue / contValue
+      self.objGate.gateValue = numToString(gatePoint)
+      self.update()
+    }
+    function formatDigit(val,dig) {
+      return val * Math.pow(10, dig - String(val).length)
+    }
+    function numToString(num) {
+      var strarr = num.toString().split('.')
+      strarr[0] = Number(strarr[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      return strarr[0]
+    }
+    self.on('mount', function(){
+      $(function(){
+        self.refs.formref.sallyRadio.value = "0.02"
+        self.refs.formref.lapMinRadio.value = "0"
+        self.refs.formref.lapSecRadio.value = "0"
+        self.refs.formref.contNumRadio.value = "0"
+        self.selectizedGP = $(self.refs.formref.digitGP).selectize({
+          options: [],
+          valueField: "value",
+          labelField: "text",
+          searchField: ["value"],
+          placeholder: "獲得したGP",
+          load: function(query, callback) {
+            if(!query.length) return callback()
+            query = Number(query)
+            callback([
+              { text: formatDigit(query, 4).toLocaleString(), value: formatDigit(query, 4) },
+              { text: formatDigit(query, 5).toLocaleString(), value: formatDigit(query, 5) },
+              { text: formatDigit(query, 6).toLocaleString(), value: formatDigit(query, 6) },
+              { text: formatDigit(query, 7).toLocaleString(), value: formatDigit(query, 7) },
+              { text: formatDigit(query, 8).toLocaleString(), value: formatDigit(query, 8) },
+              { text: formatDigit(query, 9).toLocaleString(), value: formatDigit(query, 9) },
+              { text: formatDigit(query, 10).toLocaleString(), value: formatDigit(query, 10) }
+            ])
+          }
+        })
+        $(self.refs.formref.sallyRadio).change(function(){
+          self.objGate.sallyRadio = this.value
+          calcgp()
+        })
+        $(self.refs.formref.lapMinRadio).change(function(){
+          self.objGate.lapMinRadio = this.value
+          calcgp()
+        })
+        $(self.refs.formref.lapSecRadio).change(function(){
+          self.objGate.lapSecRadio = this.value
+          calcgp()
+        })
+        $(self.refs.formref.contNumRadio).change(function(){
+          self.objGate.contNumRadio = this.value
+          calcgp()
+        })
+        self.selectizedGP.on('change', function(){
+          self.objGate.digitGP = self.selectizedGP.val()
+          calcgp()
+        })
+      })
+    })
+});
+
+riot.tag2('gpdesc', '<form ref="formref" onsubmit="return false;"> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning"> <p class="text-left">左上</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger"> <p class="text-left">右上</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default"> <p class="text-left">ゲート</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info"> <p class="text-left">左下</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success"> <p class="text-left">右下</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </form>', '', '', function(opts) {
+});
+
+riot.tag2('jst', '<h4>現在時刻:<span class="label label-default">{clock}</span></h4>', '', '', function(opts) {
     var self = this
     self.serverlist = [
       'https://ntp-a1.nict.go.jp/cgi-bin/json',
@@ -351,7 +376,7 @@ riot.tag2('jst', '<h4>{clock}</h4>', '', '', function(opts) {
     }
 });
 
-riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1<small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4" id="gldbg"> <div id="layer"> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> </div> <div class="col-md-8"> <gatedesc></gatedesc> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f5f5f5; border-color: #ddd; } pray #gldbg,[data-is="pray"] #gldbg{ background: url("ettaso.jpeg") no-repeat center center; background-size: contain; } pray #layer,[data-is="pray"] #layer{ background-color: rgba(255,255,255,0.5); }', '', function(opts) {
+riot.tag2('pray', '<section> <h3>お祈り計算できるマン3.1 <small>(更新:{document.lastModified})</small></h3> <jst> </jst> <div class="row"> <div class="col-md-4"> <div id="gldbg"> <div id="layer"> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning" type="button" data-toggle="modal" data-target="#upleft" tabindex="0"> <p class="text-left">左上({objPray.modul.min})</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger" type="button" data-toggle="modal" data-target="#upright" tabindex="0"> <p class="text-left">右上({objPray.modur.min})</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default" type="button" data-toggle="modal" data-target="#gate" tabindex="0"> <p class="text-left">ゲート({objPray.modgt.min})</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info" type="button" data-toggle="modal" data-target="#lowleft" tabindex="0"> <p class="text-left">左下({objPray.modll.min})</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success" type="button" data-toggle="modal" data-target="#lowright" tabindex="0"> <p class="text-left">右下({objPray.modlr.min})</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </div> </div> <gatedesc></gatedesc> </div> <div class="col-md-8"> <gpcalc></gpcalc> </div> </div> <praymodal ref="modul" refname="modul" modid="upleft" modtitle="左上" modcolor="panel-warning"></praymodal> <praymodal ref="modur" refname="modur" modid="upright" modtitle="右上" modcolor="panel-danger"></praymodal> <gatemodal ref="modgt" refname="modgt" modid="gate" modtitle="ゲート" modcolor="panel-default"></gatemodal> <praymodal ref="modll" refname="modll" modid="lowleft" modtitle="左下" modcolor="panel-info"></praymodal> <praymodal ref="modlr" refname="modlr" modid="lowright" modtitle="右下" modcolor="panel-success"></praymodal> </section>', 'pray .alert-default,[data-is="pray"] .alert-default{ background-color: #f5f5f5; border-color: #ddd; } pray #gldbg,[data-is="pray"] #gldbg{ background: url("ettaso.jpeg") no-repeat center center; background-size: contain; } pray #layer,[data-is="pray"] #layer{ background-color: rgba(255,255,255,0.5); }', '', function(opts) {
     var self = this
     self.objPray = {
       modul: { pray: "タップしてね", min: "-分" },
