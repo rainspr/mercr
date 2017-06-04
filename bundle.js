@@ -305,7 +305,7 @@ riot.tag2('gpcalc', '<div class="panel-group" id="accordion"> <div class="panel 
 riot.tag2('gpdesc', '<form ref="formref" onsubmit="return false;"> <div class="row"> <div class="col-xs-6"> <div class="alert alert-warning"> <p class="text-left">左上</p> <p class="text-left"><strong>{objPray.modul.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-danger"> <p class="text-left">右上</p> <p class="text-left"><strong>{objPray.modur.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <div class="alert alert-default"> <p class="text-left">ゲート</p> <p class="text-left"><strong>{objPray.modgt.pray}</strong></p> </div> </div> </div> <div class="row"> <div class="col-xs-6"> <div class="alert alert-info"> <p class="text-left">左下</p> <p class="text-left"><strong>{objPray.modll.pray}</strong></p> </div> </div> <div class="col-xs-6"> <div class="alert alert-success"> <p class="text-left">右下</p> <p class="text-left"><strong>{objPray.modlr.pray}</strong></p> </div> </div> </div> </form>', '', '', function(opts) {
 });
 
-riot.tag2('jst', '<h4>現在時刻:<span class="label label-default">{clock}</span></h4>', '', '', function(opts) {
+riot.tag2('jst', '<h4>現在時刻: {clock}</h4>', '', '', function(opts) {
     var self = this
     self.serverlist = [
       'https://ntp-a1.nict.go.jp/cgi-bin/json',
