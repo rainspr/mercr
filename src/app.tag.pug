@@ -14,7 +14,9 @@ app
           li
             a(href='#') home
           li
-            a(href='#pray') pray
+            a(href='#pray') お祈り
+          //li
+            a(href="#rfgen") 勧誘カード
           li
             a(href='#prayj') others
   .container
@@ -28,6 +30,9 @@ app
     })
     r('pray', function() {
       riot.mount('#content', 'pray')
+    })
+    r('rfgen', function() {
+      riot.mount('#content', 'rfgen')
     })
     r('prayj', function() {
       riot.mount('#content', 'prayj')

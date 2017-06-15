@@ -1,0 +1,83 @@
+rfgen
+  section
+    h3 勧誘カードジェネレータ(仮)
+
+    form(ref="formref", onsubmit="return false;")
+      .row
+        .col-md-6
+          .form-group
+            label 名前
+            input.form-control(type="text")
+          .form-group
+            label 希望期間
+            input.form-control(type="text")
+          .form-group
+            label 希望レート
+            input.form-control(type="text")
+          .form-group
+            label 参加イベント
+            .form-inline
+              label #[input(type="checkbox")] ギルバト
+              label #[input(type="checkbox")] レアメ
+              label #[input(type="checkbox")] 暴走/爆走
+              label #[input(type="checkbox")] 降臨
+          .form-group
+            label ギルログ参加
+            .form-inline
+              label #[input(type="checkbox")] 参加
+              label #[input(type="checkbox")] 連絡・挨拶のみ
+              label #[input(type="checkbox")] 無言
+          .form-group
+            label その他補足事項等
+            textarea.form-control(rows="4")
+        .col-md-6
+          .form-group
+            label 参加率
+            .form-inline
+              label #[input(type="checkbox")] 朝
+              label #[input(type="checkbox")] 昼
+              label #[input(type="checkbox")] 夕
+              label #[input(type="checkbox")] 夜
+            .form-inline
+              label 備考(貯水・周回など)
+              input.form-control(type="text")
+          .form-group
+            label 突破力
+            textarea.form-control(rows="3")
+          .form-group
+            label コンテ
+            .form-inline
+              label #[input(type="checkbox")] 不可　
+              label #[input(type="checkbox")] 勇気の水のみ　
+              label #[input(type="checkbox")] ダイヤ　
+          .form-group
+            label 祈り
+            input.form-control(type="text")
+          .form-group
+            label 所持パーティ
+            .form-inline
+              label #[input(type="checkbox")] 属性BCパ
+              label #[input(type="checkbox")] 弓BCパ
+              label #[input(type="checkbox")] 魔BCパ
+              label #[input(type="checkbox")] 銃BCパ
+            .form-inline
+              label #[input(type="checkbox")] 弓フィクセパ
+              label #[input(type="checkbox")] 魔フィクセパ
+              label #[input(type="checkbox")] 銃フィクセパ
+            .form-inline
+              label 詳細(☆5中衛打撃の有無等)
+              input.form-control(type="text")
+            .form-inline
+              label #[input(type="checkbox")] ソサパ
+            .form-inline
+              label #[input(type="checkbox")] リトラクトパ
+            .form-inline
+              label #[input(type="checkbox")] 救援エグザント
+              label #[input(type="checkbox")] 救援リトラクト
+              label #[input(type="checkbox")] 救援ソーサリー
+              label #[input(type="checkbox")] 救援リバイヴ
+            .form-inline
+              label その他:
+              input.form-control(type="text")
+      button.btn.btn-default 作成
+
