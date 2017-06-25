@@ -1093,6 +1093,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "マーシュレイク",
+    extname: "",
+    elm: "wind",
+    skin: "通常",
+    hp: 157691,
+    size: 1.799,
+    interval: 2.71,
+    mlt: 6,
+    cmb: 1,
+    reach: 25,
+    range: 50,
+    gate: false
+  },
+  {
     name: "モクトピア",
     extname: "たこ",
     elm: "wind",
