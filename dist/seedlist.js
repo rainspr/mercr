@@ -14,7 +14,7 @@ var seed = [{
   },
   {
     name: "アルムナイト",
-    extname: "おうむがい おむないと",
+    extname: "",
     elm: "fire",
     skin: "特硬",
     hp: 114123,
@@ -28,7 +28,7 @@ var seed = [{
   },
   {
     name: "ヴォイシア",
-    extname: "とり ゔぉいしあ",
+    extname: "ゔぉいしあ",
     elm: "fire",
     skin: "特硬",
     hp: 166246,
@@ -140,7 +140,7 @@ var seed = [{
   },
   {
     name: "ノーズホーン",
-    extname: "のずほん",
+    extname: "",
     elm: "fire",
     skin: "硬い",
     hp: 21228,
@@ -168,7 +168,7 @@ var seed = [{
   },
   {
     name: "ヒポポターシャ",
-    extname: "かば",
+    extname: "",
     elm: "fire",
     skin: "硬い",
     hp: 156657,
@@ -196,7 +196,7 @@ var seed = [{
   },
   {
     name: "フェニオン",
-    extname: "とり",
+    extname: "",
     elm: "fire",
     skin: "通常",
     hp: 145857,
@@ -364,7 +364,7 @@ var seed = [{
   },
   {
     name: "メラムート",
-    extname: "しか",
+    extname: "",
     elm: "fire",
     skin: "通常",
     hp: 163498,
@@ -561,7 +561,7 @@ var seed = [{
   },
   {
     name: "セネガルガ",
-    extname: "かえる",
+    extname: "",
     elm: "water",
     skin: "特柔",
     hp: 151767,
@@ -617,7 +617,7 @@ var seed = [{
   },
   {
     name: "フィーラーポポ",
-    extname: "しょくしゅ",
+    extname: "",
     elm: "water",
     skin: "柔らかい",
     hp: 135012,
@@ -645,7 +645,7 @@ var seed = [{
   },
   {
     name: "フォルチュナ",
-    extname: "さりえる",
+    extname: "",
     elm: "water",
     skin: "通常",
     hp: 152641,
@@ -659,7 +659,7 @@ var seed = [{
   },
   {
     name: "ブリザードドラゴン",
-    extname: "ぶりどら",
+    extname: "",
     elm: "water",
     skin: "硬い",
     hp: 81929,
@@ -996,7 +996,7 @@ var seed = [{
   },
   {
     name: "ノーズハンマー",
-    extname: "のずはん",
+    extname: "",
     elm: "wind",
     skin: "硬い",
     hp: 83721,
@@ -1038,7 +1038,7 @@ var seed = [{
   },
   {
     name: "ピッカー",
-    extname: "とり",
+    extname: "",
     elm: "wind",
     skin: "柔らかい",
     hp: 77991,
@@ -1108,7 +1108,7 @@ var seed = [{
   },
   {
     name: "モクトピア",
-    extname: "たこ",
+    extname: "",
     elm: "wind",
     skin: "通常",
     hp: 153019,
@@ -1179,7 +1179,7 @@ var seed = [{
   },
   {
     name: "カウボルタス",
-    extname: "うし かぼす",
+    extname: "",
     elm: "light",
     skin: "通常",
     hp: 156557,
@@ -1207,7 +1207,7 @@ var seed = [{
   },
   {
     name: "ギッチョフンゴ",
-    extname: "きのこ",
+    extname: "",
     elm: "light",
     skin: "柔らかい",
     hp: 86000,
@@ -1221,7 +1221,7 @@ var seed = [{
   },
   {
     name: "クーペルクーペ",
-    extname: "あるてぃめっと",
+    extname: "",
     elm: "light",
     skin: "特柔",
     hp: 150508,
@@ -1235,7 +1235,7 @@ var seed = [{
   },
   {
     name: "クイーンスピッツ",
-    extname: "はち じょおうばち じょうおうばち",
+    extname: "はち",
     elm: "light",
     skin: "硬い",
     hp: 132301,
@@ -1305,7 +1305,7 @@ var seed = [{
   },
   {
     name: "サウンダー",
-    extname: "とり てとら",
+    extname: "てとら",
     elm: "light",
     skin: "通常",
     hp: 84219,
@@ -1333,7 +1333,7 @@ var seed = [{
   },
   {
     name: "ジュグラギ",
-    extname: "くじら",
+    extname: "",
     elm: "light",
     skin: "通常",
     hp: 134290,
@@ -1347,7 +1347,7 @@ var seed = [{
   },
   {
     name: "シンフォウル",
-    extname: "とり",
+    extname: "",
     elm: "light",
     skin: "通常",
     hp: 124000,
@@ -1375,7 +1375,7 @@ var seed = [{
   },
   {
     name: "スピッツ",
-    extname: "はち",
+    extname: "",
     elm: "light",
     skin: "硬い",
     hp: 54579,
@@ -1431,7 +1431,7 @@ var seed = [{
   },
   {
     name: "ドランシー",
-    extname: "おとしご",
+    extname: "",
     elm: "light",
     skin: "柔らかい",
     hp: 90958,
@@ -1445,7 +1445,7 @@ var seed = [{
   },
   {
     name: "ニライカナイ",
-    extname: "うみうし",
+    extname: "",
     elm: "light",
     skin: "特柔",
     hp: 165191,
@@ -1740,7 +1740,7 @@ var seed = [{
   },
   {
     name: "グロピオン",
-    extname: "さそり",
+    extname: "",
     elm: "dark",
     skin: "硬い",
     hp: 78706,
@@ -1768,7 +1768,7 @@ var seed = [{
   },
   {
     name: "シェペトヌス",
-    extname: "へび かい",
+    extname: "",
     elm: "dark",
     skin: "通常",
     hp: 161159,
@@ -1824,7 +1824,7 @@ var seed = [{
   },
   {
     name: "ネウルハイド",
-    extname: "ろれんす いもり",
+    extname: "ろれんす",
     elm: "dark",
     skin: "通常",
     hp: 91339,
@@ -1922,7 +1922,7 @@ var seed = [{
   },
   {
     name: "ホーリーバイソン",
-    extname: "うし",
+    extname: "",
     elm: "dark",
     skin: "柔らかい",
     hp: 158545,
@@ -1950,7 +1950,7 @@ var seed = [{
   },
   {
     name: "マンティスアント",
-    extname: "かまきり",
+    extname: "",
     elm: "dark",
     skin: "硬い",
     hp: 97706,
@@ -1992,7 +1992,7 @@ var seed = [{
   },
   {
     name: "ユニルス",
-    extname: "うま",
+    extname: "",
     elm: "dark",
     skin: "柔らかい",
     hp: 93918,
@@ -2076,7 +2076,7 @@ var seed = [{
   },
   {
     name: "ワルチューレ",
-    extname: "ねずみ",
+    extname: "",
     elm: "dark",
     skin: "特柔",
     hp: 174492,
