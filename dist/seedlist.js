@@ -390,6 +390,20 @@ var seed = [{
     range: 120,
     gate: true
   },
+  {
+    name: "地龍皇帝ソドム",
+    extname: "",
+    elm: "fire",
+    skin: "特硬",
+    hp: 115671,
+    size: 1.710,
+    interval: 3.21,
+    mlt: 5,
+    cmb: 3,
+    reach: 60,
+    range: 0,
+    gate: false
+  },
 
   {
     name: "アイスゴーレム",
@@ -504,6 +518,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "グラオンス",
+    extname: "",
+    elm: "water",
+    skin: "通常",
+    hp: 108390,
+    size: 1.706,
+    interval: 2.60,
+    mlt: 4,
+    cmb: 2,
+    reach: 35,
+    range: 0,
+    gate: false
+  },
+  {
     name: "コジェラシオン",
     extname: "",
     elm: "water",
@@ -528,7 +556,7 @@ var seed = [{
     mlt: 3,
     cmb: 3,
     reach: 30,
-    range: 55,
+    range: 0,
     gate: true
   },
   {
@@ -909,6 +937,20 @@ var seed = [{
     reach: 80,
     range: 145,
     gate: true
+  },
+  {
+    name: "オスロメルス",
+    extname: "",
+    elm: "wind",
+    skin: "柔らかい",
+    hp: 157214,
+    size: 1.713,
+    interval: 2.54,
+    mlt: 3,
+    cmb: 2,
+    reach: 95,
+    range: 150,
+    gate: false
   },
   {
     name: "カカルー(風)",
@@ -1456,6 +1498,20 @@ var seed = [{
     reach: 80,
     range: 110,
     gate: true
+  },
+  {
+    name: "ネコにょらい",
+    extname: "",
+    elm: "light",
+    skin: "通常",
+    hp: 97577,
+    size: 1.719,
+    interval: 2.88,
+    mlt: 6,
+    cmb: 3,
+    reach: 30,
+    range: 0,
+    gate: false
   },
   {
     name: "バメル",
