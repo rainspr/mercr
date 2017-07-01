@@ -401,7 +401,7 @@ var seed = [{
     mlt: 5,
     cmb: 3,
     reach: 60,
-    range: 0,
+    range: 120,
     gate: false
   },
 
@@ -528,7 +528,7 @@ var seed = [{
     mlt: 4,
     cmb: 2,
     reach: 35,
-    range: 0,
+    range: 65,
     gate: false
   },
   {
@@ -1510,7 +1510,7 @@ var seed = [{
     mlt: 6,
     cmb: 3,
     reach: 30,
-    range: 0,
+    range: 60,
     gate: false
   },
   {
