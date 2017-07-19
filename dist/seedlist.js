@@ -1525,7 +1525,7 @@ var seed = [{
     cmb: 4,
     reach: 20,
     range: 30,
-    gate: false
+    gate: true
   },
   {
     name: "ファーブニール",
@@ -2086,7 +2086,7 @@ var seed = [{
     cmb: 1,
     reach: 60,
     range: 90,
-    gate: false
+    gate: true
   },
   {
     name: "リミムー",
