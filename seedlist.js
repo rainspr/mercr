@@ -1525,7 +1525,7 @@ var seed = [{
     cmb: 4,
     reach: 20,
     range: 30,
-    gate: false
+    gate: true
   },
   {
     name: "ファーブニール",
@@ -1540,6 +1540,20 @@ var seed = [{
     reach: 80,
     range: 120,
     gate: true
+  },
+  {
+    name: "ブラン",
+    extname: "",
+    elm: "light",
+    skin: "通常",
+    hp: 165484,
+    size: 1.718,
+    interval: 2.79,
+    mlt: 4,
+    cmb: 2,
+    reach: 100,
+    range: 140,
+    gate: false
   },
   {
     name: "ペタルデス",
@@ -1921,6 +1935,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "ファンガス",
+    extname: "",
+    elm: "dark",
+    skin: "硬い",
+    hp: 113518,
+    size: 1.703,
+    interval: 3.88,
+    mlt: 2,
+    cmb: 2,
+    reach: 50,
+    range: 70,
+    gate: false
+  },
+  {
     name: "ブラックスワン",
     extname: "",
     elm: "dark",
@@ -2086,7 +2114,7 @@ var seed = [{
     cmb: 1,
     reach: 60,
     range: 90,
-    gate: false
+    gate: true
   },
   {
     name: "リミムー",
