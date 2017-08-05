@@ -19,7 +19,7 @@ gpcalc
               label クリア(秒)
               .btn-group.btn-group-sm(data-toggle="buttons")
                 label.btn.btn-default(each="{ lapSec }", class="{ active: isactive }") #[input(type="radio", name="lapSecRadio", autocomplete="off", value="{ value }")] { text }
-            fieldset.form-group
+            fieldset.form-group(hide=true)
               label コンテ数
               .btn-group.btn-group-sm(data-toggle="buttons")
                 label.btn.btn-default(each="{ contNum }", class="{ active: isactive }") #[input(type="radio", name="contNumRadio", autocomplete="off", value="{ value }")] { text }
