@@ -19,7 +19,7 @@ gpcalc
               label クリア(秒)
               .btn-group.btn-group-sm(data-toggle="buttons")
                 label.btn.btn-default(each="{ lapSec }", class="{ active: isactive }") #[input(type="radio", name="lapSecRadio", autocomplete="off", value="{ value }")] { text }
-            fieldset.form-group(hide=true)
+            fieldset.form-group(show="{ isshown }")
               label コンテ数
               .btn-group.btn-group-sm(data-toggle="buttons")
                 label.btn.btn-default(each="{ contNum }", class="{ active: isactive }") #[input(type="radio", name="contNumRadio", autocomplete="off", value="{ value }")] { text }
@@ -35,6 +35,7 @@ gpcalc
 
   script.
     var self = this
+    self.isshown = false
     self.selectizedGP = []
     self.objGate = {
       sallyRadio: "0.02",
