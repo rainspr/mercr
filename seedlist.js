@@ -377,6 +377,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "メラルーパー",
+    extname: "",
+    elm: "fire",
+    skin: "特柔",
+    hp: 130295,
+    size: 1.718,
+    interval: 2.95,
+    mlt: 4,
+    cmb: 3,
+    reach: 35,
+    range: 0,
+    gate: true
+  },
+  {
     name: "リフティー",
     extname: "",
     elm: "fire",
@@ -725,6 +739,20 @@ var seed = [{
     cmb: 1,
     reach: 30,
     range: 60,
+    gate: false
+  },
+  {
+    name: "ムーシームー",
+    extname: "",
+    elm: "water",
+    skin: "通常",
+    hp: 155548,
+    size: 1.799,
+    interval: 2.89,
+    mlt: 8,
+    cmb: 1,
+    reach: 85,
+    range: 0,
     gate: false
   },
   {
@@ -1093,6 +1121,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "フォレガスホルン",
+    extname: "",
+    elm: "wind",
+    skin: "通常",
+    hp: 150017,
+    size: 1.704,
+    interval: 2.88,
+    mlt: 4,
+    cmb: 4,
+    reach: 85,
+    range: 0,
+    gate: true
+  },
+  {
     name: "フォレストトン",
     extname: "さかな",
     elm: "wind",
@@ -1343,6 +1385,20 @@ var seed = [{
     cmb: 3,
     reach: 100,
     range: 120,
+    gate: true
+  },
+  {
+    name: "ゴルグロン",
+    extname: "",
+    elm: "light",
+    skin: "特硬",
+    hp: 142783,
+    size: 1.708,
+    interval: 2.65,
+    mlt: 3,
+    cmb: 5,
+    reach: 30,
+    range: 0,
     gate: true
   },
   {
@@ -1863,6 +1919,20 @@ var seed = [{
     reach: 60,
     range: 90,
     gate: true
+  },
+  {
+    name: "すぺりあん",
+    extname: "",
+    elm: "dark",
+    skin: "通常",
+    hp: 74242,
+    size: 1.750,
+    interval: 3.80,
+    mlt: 10,
+    cmb: 2,
+    reach: 30,
+    range: 0,
+    gate: false
   },
   {
     name: "ダニエル",
