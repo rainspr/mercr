@@ -21,12 +21,12 @@
   },
   "homepage": "https://github.com/rainspr/mercr#readme",
   "dependencies": {
-    "riot": "^3.6.3"
+    "riot": "^3.7.2"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "buble": "^0.15.2",
     "gh-pages": "^1.0.0",
-    "pug": "^2.0.0-rc.3"
+    "pug": "^2.0.0-rc.4"
   }
 }

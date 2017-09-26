@@ -94,7 +94,7 @@ var seed = [{
     cmb: 2,
     reach: 20,
     range: 40,
-    gate: false
+    gate: true
   },
   {
     name: "ゴーレム",
@@ -1233,6 +1233,20 @@ var seed = [{
     gate: false
   },
   {
+    name: "ルーク",
+    extname: "",
+    elm: "wind",
+    skin: "硬い",
+    hp: 117645,
+    size: 1.795,
+    interval: 4.10,
+    mlt: 7,
+    cmb: 1,
+    reach: 20,
+    range: 0,
+    gate: false
+  },
+  {
     name: "ローリィ",
     extname: "",
     elm: "wind",
@@ -1598,6 +1612,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "フェアリーナイト",
+    extname: "",
+    elm: "light",
+    skin: "通常",
+    hp: 95807,
+    size: 1.797,
+    interval: 2.60,
+    mlt: 5,
+    cmb: 2,
+    reach: 80,
+    range: 0,
+    gate: false
+  },
+  {
     name: "ブラン",
     extname: "",
     elm: "light",
@@ -1806,7 +1834,7 @@ var seed = [{
     cmb: 1,
     reach: 105,
     range: 130,
-    gate: false
+    gate: true
   },
   {
     name: "オニクモキリ",
