@@ -321,6 +321,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "ポルンス",
+    extname: "",
+    elm: "fire",
+    skin: "通常",
+    hp: 117425,
+    size: 1.710,
+    interval: 2.93,
+    mlt: 3,
+    cmb: 2,
+    reach: 20,
+    range: 0,
+    gate: false
+  },
+  {
     name: "マギカルシファ",
     extname: "",
     elm: "fire",
@@ -586,6 +600,20 @@ var seed = [{
     reach: 40,
     range: 60,
     gate: true
+  },
+  {
+    name: "スネイレン",
+    extname: "",
+    elm: "water",
+    skin: "硬い",
+    hp: 157997,
+    size: 1.701,
+    interval: 2.47,
+    mlt: 3,
+    cmb: 3,
+    reach: 70,
+    range: 0,
+    gate: false
   },
   {
     name: "スノンスノン",
