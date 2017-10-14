@@ -557,7 +557,7 @@ var seed = [{
     cmb: 2,
     reach: 35,
     range: 65,
-    gate: false
+    gate: true
   },
   {
     name: "コジェラシオン",
@@ -1006,7 +1006,7 @@ var seed = [{
     cmb: 2,
     reach: 95,
     range: 150,
-    gate: false
+    gate: true
   },
   {
     name: "カカルー(風)",
