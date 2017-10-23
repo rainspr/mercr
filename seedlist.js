@@ -1724,6 +1724,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "マローニア",
+    extname: "",
+    elm: "light",
+    skin: "通常",
+    hp: 158110,
+    size: 1.799,
+    interval: 2.88,
+    mlt: 8,
+    cmb: 1,
+    reach: 45,
+    range: 90,
+    gate: false
+  },
+  {
     name: "モルフィーネ",
     extname: "",
     elm: "light",
