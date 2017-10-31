@@ -153,6 +153,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "バーミュス",
+    extname: "",
+    elm: "fire",
+    skin: "通常",
+    hp: 158308,
+    size: 1.706,
+    interval: 2.28,
+    mlt: 2,
+    cmb: 5,
+    reach: 95,
+    range: 0,
+    gate: false
+  },
+  {
     name: "ピエルフル",
     extname: "",
     elm: "fire",
@@ -1245,6 +1259,20 @@ var seed = [{
     reach: 45,
     range: 135,
     gate: true
+  },
+  {
+    name: "ユラスカシバ",
+    extname: "",
+    elm: "wind",
+    skin: "柔らかい",
+    hp: 99887,
+    size: 1.705,
+    interval: 2.34,
+    mlt: 5,
+    cmb: 3,
+    reach: 65,
+    range: 0,
+    gate: false
   },
   {
     name: "ヨルグリア",
