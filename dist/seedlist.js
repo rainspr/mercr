@@ -1693,7 +1693,7 @@ var seed = [{
     cmb: 2,
     reach: 100,
     range: 140,
-    gate: false
+    gate: true
   },
   {
     name: "ペタルデス",
@@ -2114,7 +2114,7 @@ var seed = [{
     cmb: 2,
     reach: 50,
     range: 70,
-    gate: false
+    gate: true
   },
   {
     name: "ブラックスワン",
