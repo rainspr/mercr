@@ -433,6 +433,20 @@ var seed = [{
     gate: true
   },
   {
+    name: "ロディオーバ",
+    extname: "",
+    elm: "fire",
+    skin: "通常",
+    hp: 107957,
+    size: 1.704,
+    interval: 2.63,
+    mlt: 4,
+    cmb: 1,
+    reach: 30,
+    range: 0,
+    gate: false
+  },
+  {
     name: "地龍皇帝ソドム",
     extname: "",
     elm: "fire",
@@ -2101,6 +2115,20 @@ var seed = [{
     reach: 90,
     range: 135,
     gate: true
+  },
+  {
+    name: "ファーザー",
+    extname: "",
+    elm: "dark",
+    skin: "特硬",
+    hp: 142184,
+    size: 1.704,
+    interval: 4.30,
+    mlt: 7,
+    cmb: 5,
+    reach: 75,
+    range: 0,
+    gate: false
   },
   {
     name: "ファンガス",
