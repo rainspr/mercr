@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "test",
   "scripts": {
-    "start": "npm run watch & npm run server",
-    "build": "riot --config riot.config.js",
-    "watch": "riot --config riot.config.js -w",
-    "server": "browser-sync start --files 'dist/*, index.html' --server",
+    "start": "npm run watch:riot & npm run watch:parcel",
+    "watch:parcel": "parcel src/index.html",
+    "watch:riot": "riot -w --template pug src/app/ src/tags.js",
+    "build": "parcel build src/index.html",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -21,12 +21,10 @@
   },
   "homepage": "https://github.com/rainspr/mercr#readme",
   "dependencies": {
-    "riot": "^3.7.4"
-  },
-  "devDependencies": {
-    "browser-sync": "^2.18.13",
-    "buble": "^0.15.2",
+    "babel-preset-es2015-riot": "^1.1.0",
     "gh-pages": "^1.1.0",
-    "pug": "^2.0.0-rc.4"
+    "parcel-bundler": "^1.4.1",
+    "pug": "^2.0.0-rc.4",
+    "riot": "^3.8.1"
   }
 }

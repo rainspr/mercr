@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"riot","loc":{"line":1,"column":17}}],"generated":{"js":"\"use strict\";var e=require(\"riot\"),r=t(e);function t(e){return e&&e.__esModule?e:{default:e}}var u={obs:r.default.observable()};module.exports=u;"},"hash":"160d77d4788035e1939a7aa2261be3e9"}

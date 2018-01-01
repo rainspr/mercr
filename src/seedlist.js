@@ -1,4 +1,4 @@
-var seed = [{
+const seed = [{
     name: "アナグラー",
     extname: "",
     elm: "fire",
@@ -2383,3 +2383,15 @@ var seed = [{
     gate: false
   },
 ]
+
+function convertToHira(str) {
+  return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+    var chr = match.charCodeAt(0) - 0x60
+    return String.fromCharCode(chr)
+  })
+}
+
+export const seedDef = seed.map((s) => {
+  s.extname += s.name + convertToHira(s.name)
+  return s
+})
