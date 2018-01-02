@@ -42,8 +42,8 @@ gtpanel
 			{ text: "5体目", isactive: false, value: 1.8 }
 		]
 		self.size = [
-			{ text: "1.72", isactive: true, value: 1.72 },
-			{ text: "1.75", isactive: false, value: 1.75 },
+			{ text: "1.72", isactive: false, value: 1.72 },
+			{ text: "1.75", isactive: true, value: 1.75 },
 			{ text: "1.80", isactive: false, value: 1.80 },
 			{ text: "1.00", isactive: false, value: 1.00 }
 		]

@@ -156,7 +156,7 @@ riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading
     	{ index: "範囲", seedid: "range", checked: false },
     	{ index: "段数", seedid: "cmb", checked: false },
     	{ index: "外皮", seedid: "skin", checked: true },
-    	{ index: "予想体力", seedid: "midhp", checked: false }
+    	{ index: "予想体力(1.75)", seedid: "midhp", checked: false }
     ]
     this.pray = 0
     this.tablelist = createlist(this.list)
@@ -216,8 +216,8 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     	{ text: "5体目", isactive: false, value: 1.8 }
     ]
     self.size = [
-    	{ text: "1.72", isactive: true, value: 1.72 },
-    	{ text: "1.75", isactive: false, value: 1.75 },
+    	{ text: "1.72", isactive: false, value: 1.72 },
+    	{ text: "1.75", isactive: true, value: 1.75 },
     	{ text: "1.80", isactive: false, value: 1.80 },
     	{ text: "1.00", isactive: false, value: 1.00 }
     ]
@@ -284,7 +284,7 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     	self.sRadio = self.refs.formref.sizeRadio
     	self.eRadio = self.refs.formref.elemRadio
     	self.wRadio[0].checked = true
-    	self.sRadio[0].checked = true
+    	self.sRadio[1].checked = true
     	self.eRadio[0].checked = true
     	self.seedFiltered = seedDef
     	$(function() {

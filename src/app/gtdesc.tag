@@ -18,7 +18,7 @@ gtdesc
 			{ index: "範囲", seedid: "range", checked: false },
 			{ index: "段数", seedid: "cmb", checked: false },
 			{ index: "外皮", seedid: "skin", checked: true },
-			{ index: "予想体力", seedid: "midhp", checked: false }
+			{ index: "予想体力(1.75)", seedid: "midhp", checked: false }
 		]
 		this.pray = 0
 		this.tablelist = createlist(this.list)
