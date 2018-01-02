@@ -42,6 +42,7 @@ app
 				div(show="{ show[4] }")
 					prpanel(ptitle="右下", pcolor="panel-success", pnum="4")
 			.col-md-8
+				gtdesc
 				gpdesc
 
 
@@ -63,9 +64,9 @@ app
 			let num = Number(e.currentTarget.value)
 			this.show[num] = true
 		}
-		this.obs.on("oncalc", (pnum, prayed) => {
+		this.obs.on("oncalc", (pnum, pray) => {
 			let num = Number(pnum)
-			this.prayed[num] = prayed + "%"
+			this.prayed[num] = pray.toLocaleString() + "%"
 			this.min[num] = this.clockmin
 			this.update()
 		})

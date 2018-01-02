@@ -1,6 +1,6 @@
 　
 import riot from 'riot'
-riot.tag2('app', '<section class="container"> <h3>お祈り計算v4 <small>(更新:{document.lastModified})</small></h3> <jst></jst> <div class="row"> <div class="col-md-4"> <div id="gnav"> <div id="layer"> <div class="row"> <div class="col-xs-6"> <button class="btn-block alert alert-warning" value="0" tabindex="0" onclick="{toggle}"> <p class="text-left">左上({min[0]}分)</p> <p class="text-left"><strong>{prayed[0]}</strong></p> </button> </div> <div class="col-xs-6"> <button class="btn-block alert alert-danger" value="1" tabindex="0" onclick="{toggle}"> <p class="text-left">右上({min[1]}分)</p> <p class="text-left"><strong>{prayed[1]}</strong></p> </button> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <button class="btn-block alert alert-default" value="2" tabindex="0" onclick="{toggle}"> <p class="text-left">ゲート({min[2]}分)</p> <p class="text-left"><strong>{prayed[2]}</strong></p> </button> </div> </div> <div class="row"> <div class="col-xs-6"> <button class="btn-block alert alert-info" value="3" tabindex="0" onclick="{toggle}"> <p class="text-left">左下({min[3]}分)</p> <p class="text-left"><strong>{prayed[3]}</strong></p> </button> </div> <div class="col-xs-6"> <button class="btn-block alert alert-success" value="4" tabindex="0" onclick="{toggle}"> <p class="text-left">右下({min[4]}分)</p> <p class="text-left"><strong>{prayed[4]}</strong></p> </button> </div> </div> </div> </div> <div show="{show[0]}"> <prpanel ptitle="左上" pcolor="panel-warning" pnum="0"></prpanel> </div> <div show="{show[1]}"> <prpanel ptitle="右上" pcolor="panel-danger" pnum="1"></prpanel> </div> <div show="{show[2]}"> <gtpanel ptitle="ゲート" pcolor="panel-default" pnum="2"></gtpanel> </div> <div show="{show[3]}"> <prpanel ptitle="左下" pcolor="panel-info" pnum="3"></prpanel> </div> <div show="{show[4]}"> <prpanel ptitle="右下" pcolor="panel-success" pnum="4"></prpanel> </div> </div> <div class="col-md-8"> <gpdesc></gpdesc> </div> </div> </section>', 'app .alert-default,[data-is="app"] .alert-default{ background-color: #f5f5f5; border-color: #ddd; } app #gnav,[data-is="app"] #gnav{ background: url("ettaso.jpeg") no-repeat center center; background-size: contain; } app #layer,[data-is="app"] #layer{ background-color: rgba(255,255,255,0.5); }', '', function(opts) {
+riot.tag2('app', '<section class="container"> <h3>お祈り計算v4 <small>(更新:{document.lastModified})</small></h3> <jst></jst> <div class="row"> <div class="col-md-4"> <div id="gnav"> <div id="layer"> <div class="row"> <div class="col-xs-6"> <button class="btn-block alert alert-warning" value="0" tabindex="0" onclick="{toggle}"> <p class="text-left">左上({min[0]}分)</p> <p class="text-left"><strong>{prayed[0]}</strong></p> </button> </div> <div class="col-xs-6"> <button class="btn-block alert alert-danger" value="1" tabindex="0" onclick="{toggle}"> <p class="text-left">右上({min[1]}分)</p> <p class="text-left"><strong>{prayed[1]}</strong></p> </button> </div> </div> <div class="row"> <div class="col-xs-6 col-xs-offset-3"> <button class="btn-block alert alert-default" value="2" tabindex="0" onclick="{toggle}"> <p class="text-left">ゲート({min[2]}分)</p> <p class="text-left"><strong>{prayed[2]}</strong></p> </button> </div> </div> <div class="row"> <div class="col-xs-6"> <button class="btn-block alert alert-info" value="3" tabindex="0" onclick="{toggle}"> <p class="text-left">左下({min[3]}分)</p> <p class="text-left"><strong>{prayed[3]}</strong></p> </button> </div> <div class="col-xs-6"> <button class="btn-block alert alert-success" value="4" tabindex="0" onclick="{toggle}"> <p class="text-left">右下({min[4]}分)</p> <p class="text-left"><strong>{prayed[4]}</strong></p> </button> </div> </div> </div> </div> <div show="{show[0]}"> <prpanel ptitle="左上" pcolor="panel-warning" pnum="0"></prpanel> </div> <div show="{show[1]}"> <prpanel ptitle="右上" pcolor="panel-danger" pnum="1"></prpanel> </div> <div show="{show[2]}"> <gtpanel ptitle="ゲート" pcolor="panel-default" pnum="2"></gtpanel> </div> <div show="{show[3]}"> <prpanel ptitle="左下" pcolor="panel-info" pnum="3"></prpanel> </div> <div show="{show[4]}"> <prpanel ptitle="右下" pcolor="panel-success" pnum="4"></prpanel> </div> </div> <div class="col-md-8"> <gtdesc></gtdesc> <gpdesc></gpdesc> </div> </div> </section>', 'app .alert-default,[data-is="app"] .alert-default{ background-color: #f5f5f5; border-color: #ddd; } app #gnav,[data-is="app"] #gnav{ background: url("ettaso.jpeg") no-repeat center center; background-size: contain; } app #layer,[data-is="app"] #layer{ background-color: rgba(255,255,255,0.5); }', '', function(opts) {
 
     this.show = [false, false, true, false, false]
     this.min = ["-", "-", "-", "-", "-"]
@@ -16,9 +16,9 @@ riot.tag2('app', '<section class="container"> <h3>お祈り計算v4 <small>(更�
     	let num = Number(e.currentTarget.value)
     	this.show[num] = true
     }.bind(this)
-    this.obs.on("oncalc", (pnum, prayed) => {
+    this.obs.on("oncalc", (pnum, pray) => {
     	let num = Number(pnum)
-    	this.prayed[num] = prayed + "%"
+    	this.prayed[num] = pray.toLocaleString() + "%"
     	this.min[num] = this.clockmin
     	this.update()
     })
@@ -149,6 +149,52 @@ riot.tag2('gpdesc', '<div class="panel panel-default"> <div class="panel-heading
     })
 });
 
+riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート詳細(祈り: {pray.toLocaleString()}%)</h4> </div> <div class="panel-body"> <form ref="listref"> <label class="checkbox-inline" each="{list}"> <input type="checkbox" riot-value="{index}" checked="{checked}" onclick="{parent.toggle}"> {index} </label> <table class="table"> <thead> <tr> <th each="{item in tablelist}">{item.index}</th> </tr> </thead> <tbody> <tr each="{seed in gtseed}"> <th each="{item in tablelist}">{seed[item.seedid]}</th> </tr> </tbody> </table> </form> </div> </div>', '', '', function(opts) {
+    this.list = [
+    	{ index: "名前", seedid: "name", checked: true },
+    	{ index: "リーチ", seedid: "reach", checked: true },
+    	{ index: "範囲", seedid: "range", checked: false },
+    	{ index: "段数", seedid: "cmb", checked: false },
+    	{ index: "外皮", seedid: "skin", checked: true },
+    	{ index: "予想体力", seedid: "midhp", checked: false }
+    ]
+    this.pray = 0
+    this.tablelist = createlist(this.list)
+    function createlist(list) {
+    	return list.filter(l => l.checked === true)
+    }
+    this.toggle = function(e) {
+    	let item = e.item
+    	item.checked = !item.checked
+    	this.tablelist = createlist(this.list)
+    	this.update()
+    }.bind(this)
+    this.pray = 0
+    this.gtseed = []
+    this.obs.on("oncalc", (pnum, pray) => {
+    	if(pnum === "2") {
+    		this.pray = pray
+    		this.gtseed = calchp(this.gtseed, this.pray)
+    		this.update()
+    	}
+    })
+    this.obs.on("onselect", (selected) => {
+    	this.gtseed = calchp(selected, this.pray)
+    	this.update()
+    })
+    function calchp(seed = {hp: 0, size: 1.72}, pray = 0) {
+    	return seed.map((s, index) => {
+    		s.midhp = numToString(s.hp / s.size * 1.750 * (1 + pray/100) * (1 + index))
+    		return s
+    	})
+    }
+    function numToString(num) {
+    	var strarr = num.toString().split('.')
+    	strarr[0] = Number(strarr[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    	return strarr[0]
+    }
+});
+
 riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-heading"> <h4 class="panel-title">{opts.ptitle}: <strong>{prayed}%</strong> ({minUpdated}分)</h4> </div> <div class="panel-body"> <form ref="formref" onsubmit="return false;"> <fieldset class="form-group" hide="{true}"> <label>wave</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{wave}"> <input type="radio" name="waveRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>サイズ</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{size}"> <input type="radio" name="sizeRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <label>属性</label> <div class="btn-group btn-group-sm" data-toggle="buttons"> <label class="btn btn-default {active: isactive}" each="{elem}"> <input type="radio" name="elemRadio" autocomplete="off" riot-value="{value}"> {text} </label> </div> </fieldset> <fieldset class="form-group"> <select class="form-control" ref="seedref" placeholder="シード名(5体まで)"></select> </fieldset> <fieldset class="form-group"> <select class="form-control" ref="digitref" placeholder="体力"></select> </fieldset> </form> </div> </div>', 'gtpanel .panel-heading,[data-is="gtpanel"] .panel-heading{ border-top-left-radius: inherit; border-top-right-radius: inherit; }', '', function(opts) {
     var self = this
 
@@ -200,14 +246,14 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     }
     function setSeedM(seed) {
     	let arr = []
-    	for(var l = 0; l < seed.length; l++) {
+    	for(let l = 0; l < seed.length; l++) {
     		let obj = seedDef.filter(s => s.name === seed[l])[0]
     		arr[l] = obj
     	}
     	if(arr) {
     		self.seedArr = arr
     	}
-
+    	self.obs.trigger("onselect", self.seedArr)
     }
     function setVal() {
     	let pray = calcPray({
@@ -217,13 +263,12 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     		scale: self.sRadio.value,
     		wave: self.wRadio.value
     	})
-    	console.log(`setVal:${self.seedArr[0].name},${self.sRadio.value},${self.wRadio.value},${pray}`)
     	if(pray > 0) {
     		self.prayed = pray.toLocaleString()
     	} else {
     		self.prayed = "0"
     	}
-    	self.obs.trigger("oncalc", opts.pnum, self.prayed)
+    	self.obs.trigger("oncalc", opts.pnum, pray)
     	console.log(self.obs)
     	self.update()
     }
@@ -426,14 +471,13 @@ riot.tag2('prpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     		scale: self.sRadio.value,
     		wave: self.wRadio.value
     	})
-    	console.log(`setVal:${self.seedObj.name},${self.sRadio.value},${self.wRadio.value},${pray}`)
     	if(pray > 0) {
     		self.prayed = pray.toLocaleString()
     	} else {
     		self.prayed = "0"
     	}
     	self.minUpdated = self.clockmin
-    	self.obs.trigger("oncalc", opts.pnum, self.prayed)
+    	self.obs.trigger("oncalc", opts.pnum, pray)
     	self.update()
     }
     function formatDigit(val,dig) {

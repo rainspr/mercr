@@ -85,14 +85,13 @@ prpanel
 				scale: self.sRadio.value,
 				wave: self.wRadio.value
 			})
-			console.log(`setVal:${self.seedObj.name},${self.sRadio.value},${self.wRadio.value},${pray}`)
 			if(pray > 0) {
 				self.prayed = pray.toLocaleString()
 			} else {
 				self.prayed = "0"
 			}
 			self.minUpdated = self.clockmin
-			self.obs.trigger("oncalc", opts.pnum, self.prayed)
+			self.obs.trigger("oncalc", opts.pnum, pray)
 			self.update()
 		}
 		function formatDigit(val,dig) {

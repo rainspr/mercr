@@ -72,14 +72,14 @@ gtpanel
 		}
 		function setSeedM(seed) {
 			let arr = []
-			for(var l = 0; l < seed.length; l++) {
+			for(let l = 0; l < seed.length; l++) {
 				let obj = seedDef.filter(s => s.name === seed[l])[0]
 				arr[l] = obj
 			}
 			if(arr) {
 				self.seedArr = arr
 			}
-			//obs.trigger("onselect", self.seedArr)
+			self.obs.trigger("onselect", self.seedArr)
 		}
 		function setVal() {
 			let pray = calcPray({
@@ -89,13 +89,12 @@ gtpanel
 				scale: self.sRadio.value,
 				wave: self.wRadio.value
 			})
-			console.log(`setVal:${self.seedArr[0].name},${self.sRadio.value},${self.wRadio.value},${pray}`)
 			if(pray > 0) {
 				self.prayed = pray.toLocaleString()
 			} else {
 				self.prayed = "0"
 			}
-			self.obs.trigger("oncalc", opts.pnum, self.prayed)
+			self.obs.trigger("oncalc", opts.pnum, pray)
 			console.log(self.obs)
 			self.update()
 		}
