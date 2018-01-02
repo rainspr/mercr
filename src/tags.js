@@ -183,8 +183,9 @@ riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading
     	this.update()
     })
     function calchp(seed = {hp: 0, size: 1.72}, pray = 0) {
+    	const scale = [1.0, 1.2, 1.4, 1.6, 1.8]
     	return seed.map((s, index) => {
-    		s.midhp = numToString(s.hp / s.size * 1.750 * (1 + pray/100) * (1 + index))
+    		s.midhp = numToString(s.hp / s.size * 1.750 * (1 + pray/100) * (scale[index]))
     		return s
     	})
     }
