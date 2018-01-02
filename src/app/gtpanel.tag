@@ -111,7 +111,7 @@ gtpanel
 			self.sRadio = self.refs.formref.sizeRadio
 			self.eRadio = self.refs.formref.elemRadio
 			self.wRadio[0].checked = true
-			self.sRadio[0].checked = true
+			self.sRadio[1].checked = true
 			self.eRadio[0].checked = true
 			self.seedFiltered = seedDef
 			$(function() {
