@@ -86,7 +86,6 @@ riot.tag2('gpdesc', '<div class="panel panel-default"> <div class="panel-heading
     function getgtValue({ sValue, cnValue, lmValue, lsValue, dGp }) {
     	let cleartime = 300 - lmValue - lsValue
     	if(cleartime < 0) cleartime = 0
-    	console.log(cleartime)
     	let tb = 1 + 0.201 * cleartime / 300
     	return ((dGp - 1000) / tb) / sValue / cnValue
     }
@@ -149,7 +148,7 @@ riot.tag2('gpdesc', '<div class="panel panel-default"> <div class="panel-heading
     })
 });
 
-riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート詳細(祈り: {pray.toLocaleString()}%)</h4> </div> <div class="panel-body"> <form ref="listref"> <label class="checkbox-inline" each="{list}"> <input type="checkbox" riot-value="{index}" checked="{checked}" onclick="{parent.toggle}"> {index} </label> <table class="table"> <thead> <tr> <th each="{item in tablelist}">{item.index}</th> </tr> </thead> <tbody> <tr each="{seed in gtseed}"> <th each="{item in tablelist}">{seed[item.seedid]}</th> </tr> </tbody> </table> </form> </div> </div>', '', '', function(opts) {
+riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title">ゲート詳細(祈り: {pray.toLocaleString()}%)</h4> </div> <div class="panel-body"> <form ref="listref"> <label class="checkbox-inline" each="{list}"> <input type="checkbox" riot-value="{index}" checked="{checked}" onclick="{parent.toggle}"> {index} </label> <table class="table" ref="tableref"> <thead> <tr> <th each="{item in tablelist}">{item.index}</th> </tr> </thead> <tbody> <tr each="{seed in gtseed}"> <th each="{item in tablelist}">{seed[item.seedid]}</th> </tr> </tbody> </table> <p>ゲート(<span each="{item in tablelist}">{item.index}/</span><span>): </span><span each="{seed in gtseed}"><span each="{item in tablelist}">{seed[item.seedid]}/</span><span>, </span></span></p> </form> </div> </div>', '', '', function(opts) {
     this.list = [
     	{ index: "名前", seedid: "name", checked: true },
     	{ index: "リーチ", seedid: "reach", checked: true },
@@ -159,6 +158,9 @@ riot.tag2('gtdesc', '<div class="panel panel-default"> <div class="panel-heading
     	{ index: "予想体力(1.75)", seedid: "midhp", checked: false }
     ]
     this.pray = 0
+    this.on("mount", () => {
+    	this.text = this.refs.tableref.innterText
+    })
     this.tablelist = createlist(this.list)
     function createlist(list) {
     	return list.filter(l => l.checked === true)
@@ -270,7 +272,6 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     		self.prayed = "0"
     	}
     	self.obs.trigger("oncalc", opts.pnum, pray)
-    	console.log(self.obs)
     	self.update()
     }
     function formatDigit(val,dig) {

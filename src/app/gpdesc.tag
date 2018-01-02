@@ -81,7 +81,6 @@ gpdesc
 		function getgtValue({ sValue, cnValue, lmValue, lsValue, dGp }) {
 			let cleartime = 300 - lmValue - lsValue
 			if(cleartime < 0) cleartime = 0
-			console.log(cleartime)
 			let tb = 1 + 0.201 * cleartime / 300
 			return ((dGp - 1000) / tb) / sValue / cnValue
 		}

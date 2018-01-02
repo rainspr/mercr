@@ -5,11 +5,18 @@ gtdesc
 		.panel-body
 			form(ref="listref")
 				label.checkbox-inline(each="{ list }") #[input(type="checkbox", value="{ index }", checked="{ checked }", onclick="{ parent.toggle }")] { index }
-				table.table
+				table.table(ref="tableref")
 					thead: tr
 						th(each="{ item in tablelist }") { item.index }
 					tbody: tr(each="{ seed in gtseed }")
 						th(each="{ item in tablelist }") { seed[item.seedid] }
+				p ゲート(
+					span(each="{ item in tablelist }") { item.index }/
+					span ): 
+					span(each="{ seed in gtseed }")
+						span(each="{ item in tablelist }") { seed[item.seedid] }/
+						span , 
+
 			
 	script.
 		this.list = [
@@ -21,6 +28,9 @@ gtdesc
 			{ index: "予想体力(1.75)", seedid: "midhp", checked: false }
 		]
 		this.pray = 0
+		this.on("mount", () => {
+			this.text = this.refs.tableref.innterText
+		})
 		this.tablelist = createlist(this.list)
 		function createlist(list) {
 			return list.filter(l => l.checked === true)

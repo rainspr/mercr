@@ -95,7 +95,6 @@ gtpanel
 				self.prayed = "0"
 			}
 			self.obs.trigger("oncalc", opts.pnum, pray)
-			console.log(self.obs)
 			self.update()
 		}
 		function formatDigit(val,dig) {
