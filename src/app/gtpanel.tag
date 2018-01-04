@@ -25,6 +25,7 @@ gtpanel
 		var self = this
 		//import {seedDef} from './seedlist.js'
 		self.prayed = "-"
+		self.clockmin = ""
 		self.minUpdated = "-"
 		self.eRadio = []
 		self.sRadio = []
@@ -94,6 +95,7 @@ gtpanel
 			} else {
 				self.prayed = "0"
 			}
+			self.minUpdated = self.clockmin
 			self.obs.trigger("oncalc", opts.pnum, pray)
 			self.update()
 		}
@@ -103,6 +105,9 @@ gtpanel
 		function calcPray({ seedhp = 0, seedsize = 1.72, inputhp, scale, wave }) {
 			return Math.round((inputhp / (seedhp/seedsize*scale) -1) * 100 / wave)
 		}
+		self.obs.on('onclock', function(clockmin) {
+			self.clockmin = clockmin
+		})
 
 
 		self.on('mount', () => {

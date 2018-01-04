@@ -202,6 +202,7 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     var self = this
 
     self.prayed = "-"
+    self.clockmin = ""
     self.minUpdated = "-"
     self.eRadio = []
     self.sRadio = []
@@ -271,6 +272,7 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     	} else {
     		self.prayed = "0"
     	}
+    	self.minUpdated = self.clockmin
     	self.obs.trigger("oncalc", opts.pnum, pray)
     	self.update()
     }
@@ -280,6 +282,9 @@ riot.tag2('gtpanel', '<div class="panel {opts.pcolor}"> <div class="panel-headin
     function calcPray({ seedhp = 0, seedsize = 1.72, inputhp, scale, wave }) {
     	return Math.round((inputhp / (seedhp/seedsize*scale) -1) * 100 / wave)
     }
+    self.obs.on('onclock', function(clockmin) {
+    	self.clockmin = clockmin
+    })
 
     self.on('mount', () => {
     	self.wRadio = self.refs.formref.waveRadio
