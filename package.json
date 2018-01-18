@@ -22,7 +22,6 @@
   "homepage": "https://github.com/rainspr/mercr#readme",
   "dependencies": {
     "babel-preset-es2015-riot": "^1.1.0",
-    "eslint": "^4.14.0",
     "eslint-config-riot": "^1.0.0",
     "gh-pages": "^1.1.0",
     "parcel-bundler": "^1.4.1",

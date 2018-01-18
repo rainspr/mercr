@@ -346,7 +346,7 @@ const seed = [{
     cmb: 2,
     reach: 20,
     range: 0,
-    gate: false
+    gate: true
   },
   {
     name: "マギカルシファ",
@@ -641,7 +641,7 @@ const seed = [{
     cmb: 3,
     reach: 70,
     range: 0,
-    gate: false
+    gate: true
   },
   {
     name: "スノンスノン",
