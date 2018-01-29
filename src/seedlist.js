@@ -1472,7 +1472,7 @@ const seed = [{
     gate: true
   },
   {
-    name: "ゴルグロン",
+    name: "ゴルグノン",
     extname: "",
     elm: "light",
     skin: "特硬",
