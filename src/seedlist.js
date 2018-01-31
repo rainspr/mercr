@@ -868,6 +868,20 @@ const seed = [{
     gate: true
   },
   {
+    name: "ヨウコク",
+    extname: "",
+    elm: "water",
+    skin: "通常",
+    hp: 162070,
+    size: 1.706,
+    interval: 3.45,
+    mlt: 3,
+    cmb: 3,
+    reach: 65,
+    range: 0,
+    gate: false
+  },
+  {
     name: "リュインクレイン(水)",
     extname: "",
     elm: "water",
@@ -1805,6 +1819,20 @@ const seed = [{
     cmb: 1,
     reach: 50,
     range: 100,
+    gate: false
+  },
+  {
+    name: "ラムハーン",
+    extname: "",
+    elm: "light",
+    skin: "柔らかい",
+    hp: 129562,
+    size: 1.718,
+    interval: 2.84,
+    mlt: 3,
+    cmb: 1,
+    reach: 30,
+    range: 0,
     gate: false
   },
   {
