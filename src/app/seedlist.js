@@ -1,4 +1,4 @@
-var seed = [{
+const seed = [{
     name: "アナグラー",
     extname: "",
     elm: "fire",
@@ -164,7 +164,7 @@ var seed = [{
     cmb: 5,
     reach: 95,
     range: 0,
-    gate: true
+    gate: false
   },
   {
     name: "ピエルフル",
@@ -473,20 +473,6 @@ var seed = [{
     cmb: 1,
     reach: 65,
     range: 135,
-    gate: false
-  },
-  {
-    name: "アイヴィクル",
-    extname: "",
-    elm: "water",
-    skin: "超柔",
-    hp: 113856,
-    size: 1.705,
-    interval: 2.59,
-    mlt: 4,
-    cmb: 1,
-    reach: 60,
-    range: 0,
     gate: false
   },
   {
@@ -1314,7 +1300,7 @@ var seed = [{
     cmb: 3,
     reach: 65,
     range: 0,
-    gate: true
+    gate: false
   },
   {
     name: "ヨルグリア",
@@ -1568,20 +1554,6 @@ var seed = [{
     reach: 50,
     range: 90,
     gate: true
-  },
-  {
-    name: "スウォランス",
-    extname: "",
-    elm: "light",
-    skin: "特硬",
-    hp: 168462,
-    size: 1.719,
-    interval: 3.65,
-    mlt: 4,
-    cmb: 3,
-    reach: 115,
-    range: 0,
-    gate: false
   },
   {
     name: "スパイラリ",
@@ -2447,7 +2419,7 @@ function convertToHira(str) {
   })
 }
 
-var seedDef = seed.map(function(s) {
+export const seedDef = seed.map((s) => {
   s.extname += s.name + convertToHira(s.name)
   return s
 })

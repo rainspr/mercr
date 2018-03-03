@@ -10,12 +10,6 @@ gtdesc
 						th(each="{ item in tablelist }") { item.index }
 					tbody: tr(each="{ seed in gtseed }")
 						th(each="{ item in tablelist }") { seed[item.seedid] }
-				p ゲート(
-					span(each="{ item in tablelist }") { item.index }/
-					span ): 
-					span(each="{ seed in gtseed }")
-						span(each="{ item in tablelist }") { seed[item.seedid] }/
-						span , 
 
 			
 	script.
@@ -28,29 +22,25 @@ gtdesc
 			{ index: "予想体力(1.75)", seedid: "midhp", checked: false }
 		]
 		this.pray = 0
-		this.on("mount", () => {
-			this.text = this.refs.tableref.innterText
-		})
+		this.gtseed = []
 		this.tablelist = createlist(this.list)
 		function createlist(list) {
 			return list.filter(l => l.checked === true)
 		}
-		toggle(e) {
+		this.toggle = (e) => {
 			let item = e.item
 			item.checked = !item.checked
 			this.tablelist = createlist(this.list)
 			this.update()
 		}
-		this.pray = 0
-		this.gtseed = []
-		this.obs.on("oncalc", (pnum, pray) => {
+		obs.on("oncalc", (pnum, pray) => {
 			if(pnum === "2") {
 				this.pray = pray
 				this.gtseed = calchp(this.gtseed, this.pray)
 				this.update()
 			}
 		})
-		this.obs.on("onselect", (selected) => {
+		obs.on("onselect", (selected) => {
 			this.gtseed = calchp(selected, this.pray)
 			this.update()
 		})

@@ -23,7 +23,6 @@ gtpanel
 
 	script.
 		var self = this
-		//import {seedDef} from './seedlist.js'
 		self.prayed = "-"
 		self.clockmin = ""
 		self.minUpdated = "-"
@@ -80,7 +79,7 @@ gtpanel
 			if(arr) {
 				self.seedArr = arr
 			}
-			self.obs.trigger("onselect", self.seedArr)
+			obs.trigger("onselect", self.seedArr)
 		}
 		function setVal() {
 			let pray = calcPray({
@@ -96,7 +95,7 @@ gtpanel
 				self.prayed = "0"
 			}
 			self.minUpdated = self.clockmin
-			self.obs.trigger("oncalc", opts.pnum, pray)
+			obs.trigger("oncalc", opts.pnum, pray)
 			self.update()
 		}
 		function formatDigit(val,dig) {
@@ -105,7 +104,7 @@ gtpanel
 		function calcPray({ seedhp = 0, seedsize = 1.72, inputhp, scale, wave }) {
 			return Math.round((inputhp / (seedhp/seedsize*scale) -1) * 100 / wave)
 		}
-		self.obs.on('onclock', function(clockmin) {
+		obs.on('onclock', function(clockmin) {
 			self.clockmin = clockmin
 		})
 

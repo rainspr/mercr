@@ -1,4 +1,3 @@
-<!-- const riot = require('riot')  -->　
 app
 	section.container
 		h3 お祈り計算v4 
@@ -10,25 +9,25 @@ app
 					#layer
 						.row
 							.col-xs-6
-								button.btn-block.alert.alert-warning(value="0" tabindex="0", onclick="{ toggle }")
+								button.btn-block.alert.alert-warning(value="0" tabindex="0" onclick="{ toggle }")
 									p.text-left 左上({ min[0] }分)
 									p.text-left: strong { prayed[0] }
 							.col-xs-6
-								button.btn-block.alert.alert-danger(value="1" tabindex="0", onclick="{ toggle }")
+								button.btn-block.alert.alert-danger(value="1" tabindex="0" onclick="{ toggle }")
 									p.text-left 右上({ min[1] }分)
 									p.text-left: strong { prayed[1] }
 						.row
 							.col-xs-6.col-xs-offset-3
-								button.btn-block.alert.alert-default(value="2" tabindex="0", onclick="{ toggle }")
+								button.btn-block.alert.alert-default(value="2" tabindex="0" onclick="{ toggle }")
 									p.text-left ゲート({ min[2] }分)
 									p.text-left: strong { prayed[2] }
 						.row
 							.col-xs-6
-								button.btn-block.alert.alert-info(value="3", tabindex="0", onclick="{ toggle }")
+								button.btn-block.alert.alert-info(value="3" tabindex="0" onclick="{ toggle }")
 									p.text-left 左下({ min[3] }分)
 									p.text-left: strong { prayed[3] }
 							.col-xs-6
-								button.btn-block.alert.alert-success(value="4",tabindex="0", onclick="{ toggle }")
+								button.btn-block.alert.alert-success(value="4" tabindex="0" onclick="{ toggle }")
 									p.text-left 右下({ min[4] }分)
 									p.text-left: strong { prayed[4] }
 				div(show="{ show[0] }")
@@ -48,8 +47,6 @@ app
 
 
 	script.
-		import riot from 'riot'
-
 		this.show = [false, false, true, false, false]
 		this.min = ["-", "-", "-", "-", "-"]
 		this.prayed = ["タップしてね", "タップしてね", "タップしてね", "タップしてね", "タップしてね"]
@@ -59,18 +56,18 @@ app
 			console.log('app.tag mounted', opts)
 		})
 
-		toggle(e) {
+		this.toggle = function(e) {
 			this.show = [false, false, false, false, false]
 			let num = Number(e.currentTarget.value)
 			this.show[num] = true
 		}
-		this.obs.on("oncalc", (pnum, pray) => {
+		obs.on("oncalc", (pnum, pray) => {
 			let num = Number(pnum)
 			this.prayed[num] = pray.toLocaleString() + "%"
 			this.min[num] = this.clockmin
 			this.update()
 		})
-		this.obs.on('onclock', (clockmin) => {
+		obs.on('onclock', (clockmin) => {
 			this.clockmin = clockmin
 		})
 

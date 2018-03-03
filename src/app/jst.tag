@@ -4,24 +4,26 @@ jst
 	script.
 		var self = this
 		self.serverlist = [
-			'https://ntp-a1.nict.go.jp/cgi-bin/json',
-			'https://ntp-b1.nict.go.jp/cgi-bin/json'
+			'https://ntp-a1.nict.go.jp/cgi-bin/jsont',
+			'https://ntp-b1.nict.go.jp/cgi-bin/jsont'
 		]
 		self.serverurl = self.serverlist[Math.floor(Math.random() * self.serverlist.length)]
 		self.loaddate = Date.now()
-		axios.get(self.serverurl + "?" + self.loaddate / 1000)
-			.then(function(response) {
-				self.datediff = ((response.data.st * 1000) + ((self.loaddate - (response.data.it * 1000)) / 2)) - self.loaddate
+		$.ajax({
+			url: self.serverurl + "?" + (self.loaddate / 1000),
+			dataType: "jsonp",
+			jsonpCallback: "jsont"
+		}).done(function(response) {
+				self.datediff = ((response.st * 1000) + ((self.loaddate - (response.it * 1000)) / 2)) - self.loaddate
 				updatetime()
-			})
-			.catch(function(response) {
+		}).fail(function(response) {
 				throw new Error("つながってない")
-			})
+		})
 		function updatetime() {
 			self.nowdate = new Date(Date.now() + self.datediff)
 			self.clock = dateprintf('%h時%i分%s.%u秒', self.nowdate)
 			self.update()
-			self.obs.trigger('onclock', dateprintf('%i', self.nowdate))
+			obs.trigger('onclock', dateprintf('%i', self.nowdate))
 			setTimeout(updatetime, 50)
 		}
 		function zerofill(number,digit) {

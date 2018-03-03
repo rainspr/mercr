@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "test",
   "scripts": {
-    "start": "npm run watch:riot & npm run watch:parcel",
-    "watch:parcel": "parcel src/index.html",
-    "watch:riot": "riot -w --template pug src/app/ src/tags.js",
-    "build": "parcel build src/index.html",
+    "watch": "riot -w --config riot.config.js",
+    "build": "riot --config riot.config.js",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -21,11 +19,11 @@
   },
   "homepage": "https://github.com/rainspr/mercr#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015-riot": "^1.1.0",
-    "eslint-config-riot": "^1.0.0",
     "gh-pages": "^1.1.0",
-    "parcel-bundler": "^1.4.1",
     "pug": "^2.0.0-rc.4",
-    "riot": "^3.8.1"
+    "riot": "^3.9.0"
   }
 }
