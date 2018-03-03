@@ -4,15 +4,14 @@ jst
 	script.
 		var self = this
 		self.serverlist = [
-			'https://ntp-a1.nict.go.jp/cgi-bin/jsont',
-			'https://ntp-b1.nict.go.jp/cgi-bin/jsont'
+			'https://ntp-a1.nict.go.jp/cgi-bin/json',
+			'https://ntp-b1.nict.go.jp/cgi-bin/json'
 		]
 		self.serverurl = self.serverlist[Math.floor(Math.random() * self.serverlist.length)]
 		self.loaddate = Date.now()
 		$.ajax({
-			url: self.serverurl + "?" + (self.loaddate / 1000),
-			dataType: "jsonp",
-			jsonpCallback: "jsont"
+			url: `${self.serverurl}?${(self.loaddate / 1000)}`,
+			dataType: "json",
 		}).done(function(response) {
 				self.datediff = ((response.st * 1000) + ((self.loaddate - (response.it * 1000)) / 2)) - self.loaddate
 				updatetime()
