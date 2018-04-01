@@ -223,6 +223,20 @@ var seed = [{
     gate: false
   },
   {
+    name: "フェニシャルル",
+    extname: "",
+    elm: "fire",
+    skin: "通常",
+    hp: 170678,
+    size: 1.707,
+    interval: 4.60,
+    mlt: 3,
+    cmb: 2,
+    reach: 115,
+    range: 0,
+    gate: false
+  },
+  {
     name: "フェル・ヴォルグ",
     extname: "",
     elm: "fire",
@@ -712,6 +726,20 @@ var seed = [{
     reach: 60,
     range: 135,
     gate: false
+  },
+  {
+    name: "パラディシア",
+    extname: "",
+    elm: "water",
+    skin: "硬い",
+    hp: 131087,
+    size: 1.713,
+    interval: 3.68,
+    mlt: 6,
+    cmb: 3,
+    reach: 110,
+    range: 0,
+    gate: true
   },
   {
     name: "フィーラー",
@@ -1906,6 +1934,20 @@ var seed = [{
     gate: false
   },
 
+  {
+    name: "アヴァローゼス",
+    extname: "",
+    elm: "dark",
+    skin: "特硬",
+    hp: 116655,
+    size: 1.750,
+    interval: 3.32,
+    mlt: 2,
+    cmb: 1,
+    reach: 75,
+    range: 0,
+    gate: false
+  },
   {
     name: "ウェルネシア",
     extname: "くじら",
